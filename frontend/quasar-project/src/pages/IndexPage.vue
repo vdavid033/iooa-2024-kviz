@@ -6,7 +6,7 @@
     </div>
 
     <div class="fit row justify-center">
-            <q-btn size="large" color="positive" label="Započnite kviz" href="#/kviz"/>
+            <q-btn size="large" color="positive" label="Započnite kviz" href="#/kviz5"/>
     </div>
   </div>
   </q-page>
