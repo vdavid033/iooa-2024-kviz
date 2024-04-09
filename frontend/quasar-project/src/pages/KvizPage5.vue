@@ -25,7 +25,7 @@
         :label="odgovor.latin_name"
         color="teal"
       />
-    </div>
+  </div>
     <div class="q-pa-md q-gutter-sm">
       <q-btn
         id="PrihvatiOdgovor"
@@ -246,9 +246,14 @@ export default {
 </script>
 <style>
 .odgovori {
+  background: rgba(0,0,0,0.1);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+  flex-wrap: wrap;
+
 }
+
+
 </style>

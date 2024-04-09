@@ -137,6 +137,10 @@ export default {
           label: botanicList[3].croatian_name,
           value: "op3",
         },
+        {
+          label: botanicList[4].croatian_name,
+          value: "op4",
+        },
       ],
     };
   },
