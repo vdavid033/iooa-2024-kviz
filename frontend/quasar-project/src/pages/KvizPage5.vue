@@ -172,7 +172,7 @@ export default {
       let botanicList = [];
 
       // dok lista nema 2 odgovora, trazi i dodaj novi
-      while (botanicList.length < 2) {
+      while (botanicList.length < 3) {
         let index = Math.round(Math.random() * (botanicalFamily.length - 1));
         let botanicObject = {
           id: botanicalFamily[index].id,
@@ -224,7 +224,7 @@ export default {
       let count = 0;
       function buttonPressed(e) {
         count++;
-        if (count === 9) {
+        if (count === 8) {
           button2.removeAttribute("disabled", false);
           button3.removeAttribute("disabled", false);
           button2.innerHTML = "Prihvati i zavrsi";
