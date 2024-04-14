@@ -157,22 +157,30 @@ export default {
       state.plant = randomPlant;
 
       // u state.pitanje spremamo tekst pitanja
-      state.pitanje  [0]=
+ /*    state.pitanje [0] =
         "Koji je latinski naziv za " + state.plant.croatian_name;
-        state.pitanje [1]=
-        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name;
+      state.pitanje [1]=
+       "Koji je hrvatski naziv za " + state.plant.latin_name;
+       state.pitanje [2]=
+       "Koje biljne vrste " + state.plant.croatian_name + " pripadaju botaničkoj porodici "+ state.plant.latin_name;
+       state.pitanje [3]=
+       "Koja biljna vrsta se nalazi na slici " + state.plant.latin_name;
+
+const random =Math.floor(Math.random() * state.pitanje.length);
+ return random;*/
 
 
+ state.pitanje = [
+  "Koji je latinski naziv za " + state.plant.croatian_name,
+ "Koji je hrvatski naziv za " + state.plant.latin_name,
+ "Koje biljne vrste " + state.plant.croatian_name + " pripadaju botaničkoj porodici " + state.plant.latin_name,
+ "Koja biljna vrsta se nalazi na slici " + state.plant.latin_name
+];
+const randomQuestion = Math.floor(Math.random() * state.pitanje.length);
+state.pitanje = randomQuestion;
 
-const random = Math.floor(Math.random() * pitanje.length);
-console.log(random, pitanje[random]);
-   
-}
-     
-        
 
-      
-    
+    }
 
     // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
     async function getRandomBotanicalPlant() {
