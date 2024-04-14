@@ -123,7 +123,7 @@ export default {
   setup() {
     const state = reactive({
       plant: {},
-      pitanje: "",
+      pitanje: [],
       odgovori: [],
       odabraniOdgovor: {},
       tocanOdgovor: {},
@@ -157,9 +157,22 @@ export default {
       state.plant = randomPlant;
 
       // u state.pitanje spremamo tekst pitanja
-      state.pitanje =
+      state.pitanje  [0]=
         "Koji je latinski naziv za " + state.plant.croatian_name;
-    }
+        state.pitanje [1]=
+        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name;
+
+
+
+const random = Math.floor(Math.random() * pitanje.length);
+console.log(random, pitanje[random]);
+   
+}
+     
+        
+
+      
+    
 
     // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
     async function getRandomBotanicalPlant() {
