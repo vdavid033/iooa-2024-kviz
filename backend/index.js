@@ -194,14 +194,14 @@ app.get("/get_image/:id", function (request, response) {
       .send({ error: true, message: "Please provide get_image_id" });
   }
   dbConn.query(
-    "SELECT image.id FROM image LEFT JOIN genus ON botanical_family.id=genus.botanical_family_id LEFT JOIN plant_species ON genus.id=plant_species.genus_id WHERE plant_species.id=?",
-    plant_species_id,
+    "SELECT image.id, image.image_url FROM image LEFT JOIN plant_species_image ON images.id=plant_species_image.plant_species_id LEFT JOIN plant_species ON plant_species.id=plant_species_image.plant_species_id WHERE plant_species.id=?",
+    get_image_id,
     function (error, results, fields) {
       if (error) throw error;
       return response.send({
         error: false,
         data: results[0],
-        message: "botanical_family_plant_species",
+        message: "plant_species_image", 
       });
     }
   );

@@ -10,13 +10,13 @@
       <q-img
         width="700px"
         height="400px"
-        src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Violet.JPG"
+        src=${state.image}
         :ratio="16 / 9"
       />
     </div>
     <!-- Radio buttons
     Prolazi kroz listu odgovora i za svaki dodaje radio button -->
-    <div class="q-pa-md odgovori">
+    <div class="q-pa-md odgovori"> <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
       <q-radio
         v-for="odgovor in state.odgovori"
         v-bind:key="odgovor"
@@ -129,6 +129,7 @@ export default {
       tocanOdgovor: {},
       brojTocnih: 0,
       brojNetocnih: 0,
+      image: {},
       alert: false,
       zavrsniPopup: false,
     });
