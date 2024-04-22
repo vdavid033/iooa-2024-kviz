@@ -36,8 +36,8 @@
           prikaziGumb();
           state.alert = true;
           state.odabraniOdgovor === state.tocanOdgovor.id
-            ? state.brojTocnih = state.brojTocnih + 1
-            : state.brojNetocnih = state.brojNetocnih + 1
+            ? (state.brojTocnih = state.brojTocnih + 1)
+            : (state.brojNetocnih = state.brojNetocnih + 1);
         "
       />
       <q-btn
@@ -224,14 +224,13 @@ export default {
       let button2 = document.getElementById("PrihvatiIZavrsi");
       let button3 = document.getElementById("Refresh");
       let count = 1;
-      
+
       function buttonPressed(e) {
-        if (count >=11)
-        {
+        if (count >= 11) {
           count = 1;
         }
         count++;
-        console.log("count=" + count)
+        console.log("count=" + count);
         if (count >= 11) {
           button2.removeAttribute("disabled", false);
           button3.removeAttribute("disabled", false);
@@ -246,10 +245,8 @@ export default {
     },
 
     brPitanja() {
-
       clicks += 1;
-      if (clicks === 11)
-      {
+      if (clicks === 11) {
         clicks = 10;
       }
       document.getElementById("clicks").innerHTML = clicks;

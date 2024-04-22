@@ -25,7 +25,7 @@
         :label="odgovor.latin_name"
         color="teal"
       />
-  </div>
+    </div>
     <div class="q-pa-md q-gutter-sm">
       <q-btn
         id="PrihvatiOdgovor"
@@ -36,8 +36,8 @@
           prikaziGumb();
           state.alert = true;
           state.odabraniOdgovor === state.tocanOdgovor.id
-            ? state.brojTocnih = state.brojTocnih + 1
-            : state.brojNetocnih = state.brojNetocnih + 1
+            ? (state.brojTocnih = state.brojTocnih + 1)
+            : (state.brojNetocnih = state.brojNetocnih + 1);
         "
       />
       <q-btn
@@ -123,7 +123,7 @@ export default {
   setup() {
     const state = reactive({
       plant: {},
-      pitanje: [],
+      pitanje: "",
       odgovori: [],
       odabraniOdgovor: {},
       tocanOdgovor: {},
@@ -157,29 +157,19 @@ export default {
       state.plant = randomPlant;
 
       // u state.pitanje spremamo tekst pitanja
- /*    state.pitanje [0] =
-        "Koji je latinski naziv za " + state.plant.croatian_name;
-      state.pitanje [1]=
-       "Koji je hrvatski naziv za " + state.plant.latin_name;
-       state.pitanje [2]=
-       "Koje biljne vrste " + state.plant.croatian_name + " pripadaju botaničkoj porodici "+ state.plant.latin_name;
-       state.pitanje [3]=
-       "Koja biljna vrsta se nalazi na slici " + state.plant.latin_name;
-
-const random =Math.floor(Math.random() * state.pitanje.length);
- return random;*/
-
-
- state.pitanje = [
-  "Koji je latinski naziv za " + state.plant.croatian_name,
- "Koji je hrvatski naziv za " + state.plant.latin_name,
- "Koje biljne vrste " + state.plant.croatian_name + " pripadaju botaničkoj porodici " + state.plant.latin_name,
- "Koja biljna vrsta se nalazi na slici " + state.plant.latin_name
-];
-const randomQuestion = Math.floor(Math.random() * state.pitanje.length);
-state.pitanje = randomQuestion;
-
-
+      state.pitanje = [
+        "Koji je latinski naziv za " + state.plant.croatian_name,
+        "Koji je hrvatski naziv za " + state.plant.latin_name,
+        "Koje biljne vrste " +
+          state.plant.croatian_name +
+          " pripadaju botaničkoj porodici " +
+          state.plant.latin_name,
+        "Koja biljna vrsta se nalazi na slici " + state.plant.croatian_name,
+      ];
+      const randomQuestionIndex = Math.floor(
+        Math.random() * state.pitanje.length
+      );
+      state.pitanje = state.pitanje[randomQuestionIndex];
     }
 
     // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
@@ -198,6 +188,7 @@ state.pitanje = randomQuestion;
         let botanicObject = {
           id: botanicalFamily[index].id,
           latin_name: botanicalFamily[index].latin_name,
+          croatian_name: botanicalFamily[index].croatian_name, // Adding Croatian name
         };
         // dodaje odgovor u listu samo ako takav odgovor vec ne postoji i ako odgovor nije jednak tocnom odgovoru
         if (
@@ -265,16 +256,14 @@ state.pitanje = randomQuestion;
   },
 };
 </script>
+
 <style>
 .odgovori {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
-
 }
-
-
 </style>
