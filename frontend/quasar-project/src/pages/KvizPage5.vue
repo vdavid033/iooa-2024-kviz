@@ -10,7 +10,7 @@
       <q-img
         width="700px"
         height="400px"
-        src=${state.image}
+        src=""
         :ratio="16 / 9"
       />
     </div>
@@ -69,15 +69,26 @@
 
           <q-card-section class="q-pt-none">
             <!-- //biljna vrsta pripada u botaničku porodicu botanička porodica -->
-            {{
-              state.odabraniOdgovor === state.tocanOdgovor.id
+          
+            {{ 
+            state.odabraniOdgovor === state.tocanOdgovor.id
                 ? state.plant.latin_name +
                   " je latinski naziv za " +
                   state.tocanOdgovor.croatian_name
                 : state.plant.latin_name +
                   " je latinski naziv za " +
                   state.tocanOdgovor.croatian_name
+          
             }}
+           <!-- // else if (state.pitanje ==state.pitanje[0]){ zavrsšiti za sutra*/
+            //  state.odabraniOdgovor === state.tocanOdgovor.id
+            //  ? state.plant.croatian_name +
+            //  " je hrvatski naziv za " +
+             // : state.plant.croatian_name + 
+            //  "je hrvatski naziv za " +
+             // state.tocanOdgovor.latin_name
+          //  } //-->
+          
           </q-card-section>
 
           <q-card-actions align="right">
