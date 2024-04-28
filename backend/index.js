@@ -194,7 +194,9 @@ app.get("/get_image/:id", function (request, response) {
       .send({ error: true, message: "Please provide get_image_id" });
   }
   dbConn.query(
-    "SELECT image.id, image.image_url FROM image LEFT JOIN plant_species_image ON images.id=plant_species_image.plant_species_id LEFT JOIN plant_species ON plant_species.id=plant_species_image.plant_species_id WHERE plant_species.id=?",
+    "SELECT i.id, i.image_url FROM image i LEFT JOIN plant_species_image psi
+ON i.id=psi.image_id LEFT JOIN plant_species ps ON psi.plant_species_id=ps.id WHERE ps.id=?
+LIMIT 1",
     get_image_id,
     function (error, results, fields) {
       if (error) throw error;
