@@ -88,7 +88,9 @@ app.get("/plant_species_by_bf/:id", function (request, response) {
       .send({ error: true, message: "Please provide botanical_family_id" });
   }
   dbConn.query(
-    "SELECT ps.id, ps.croatian_name, ps.latin_name FROM plant_species ps left OUTER join genus g ON ps.genus_id=g.id left OUTER join botanical_family bf on g.botanical_family_id=bf.id where bf.id=?",
+"SELECT p.id,p.croatian_name,p.latin_name FROM plant_species AS p LEFT OUTER JOIN genus AS g ON p.genus_id=g.id LEFT OUTER JOIN botanical_family AS bf ON g.botanical_family_id=bf.id WHERE bf.id=?",
+
+   // "SELECT ps.id, ps.croatian_name, ps.latin_name FROM plant_species ps left OUTER join genus g ON ps.genus_id=g.id left OUTER join botanical_family bf on g.botanical_family_id=bf.id where bf.id=?",
     botanical_family_id,
     function (error, results, fields) {
       if (error) throw error;
