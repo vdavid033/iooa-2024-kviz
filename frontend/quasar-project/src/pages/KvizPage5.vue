@@ -7,25 +7,20 @@
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img
-        width="700px"
-        height="400px"
-        src=""
-        :ratio="16 / 9"
-      />
+      <q-img width="700px" height="400px" src="" :ratio="16 / 9" />
     </div>
-    <!-- Radio buttons
-    Prolazi kroz listu odgovora i za svaki dodaje radio button -->
-    <div class="q-pa-md odgovori"> <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
+    <div class="q-pa-md odgovori">
+      <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
       <q-radio
         v-for="odgovor in state.odgovori"
-        v-bind:key="odgovor"
+        v-bind:key="odgovor.id"
         v-model="state.odabraniOdgovor"
         :val="odgovor.id"
-        :label="odgovor.latin_name"
+        :label="getLabel(odgovor)"
         color="teal"
       />
     </div>
+
     <div class="q-pa-md q-gutter-sm">
       <q-btn
         id="PrihvatiOdgovor"
@@ -69,26 +64,16 @@
 
           <q-card-section class="q-pt-none">
             <!-- //biljna vrsta pripada u botaničku porodicu botanička porodica -->
-          
-            {{ 
-            state.odabraniOdgovor === state.tocanOdgovor.id
+
+            {{
+              state.odabraniOdgovor === state.tocanOdgovor.id
                 ? state.plant.latin_name +
                   " je latinski naziv za " +
                   state.tocanOdgovor.croatian_name
                 : state.plant.latin_name +
                   " je latinski naziv za " +
                   state.tocanOdgovor.croatian_name
-          
             }}
-           <!-- // else if (state.pitanje ==state.pitanje[0]){ zavrsšiti za sutra*/
-            //  state.odabraniOdgovor === state.tocanOdgovor.id
-            //  ? state.plant.croatian_name +
-            //  " je hrvatski naziv za " +
-             // : state.plant.croatian_name + 
-            //  "je hrvatski naziv za " +
-             // state.tocanOdgovor.latin_name
-          //  } //-->
-          
           </q-card-section>
 
           <q-card-actions align="right">
@@ -256,6 +241,16 @@ export default {
       button3.onclick = () => {
         window.location.reload();
       };
+    },
+    // ne riješeno za sada.... - Emina i Ivan
+    getLabel(odgovor) {
+      if (state.pitanje == [0] || state.pitanje == [2]) {
+        console.log(this.odgovor.latin_name);
+        return this.odgovor.latin_name;
+      } else {
+        // Add logic for other cases if needed
+        return this.odgovor.croatian_name;
+      }
     },
 
     brPitanja() {
