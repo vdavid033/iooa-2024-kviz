@@ -7,7 +7,7 @@
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img width="700px" height="400px" src="" :ratio="16 / 9" />
+      <q-img width="700px" height="400px" src={{ state.image.image_id }} :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
       <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
@@ -16,7 +16,7 @@
         v-bind:key="odgovor.id"
         v-model="state.odabraniOdgovor"
         :val="odgovor.id"
-        :label="state.image"
+        :label="getAnswers()"
         color="teal"
       />
     </div>
@@ -269,6 +269,16 @@ export default {
       button3.onclick = () => {
         window.location.reload();
       };
+    },
+    // ne riješeno za sada.... - Emina i Ivan
+    getLabel(odgovor) {
+      if (state.pitanje == [0] || state.pitanje == [2]) {
+        console.log(this.odgovor.latin_name);
+        return this.odgovor.latin_name;
+      } else {
+        // Add logic for other cases if needed
+        return this.odgovor.croatian_name;
+      }
     },
 
     brPitanja() {
