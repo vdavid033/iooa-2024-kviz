@@ -7,7 +7,7 @@
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img width="700px" height="400px" src={{ state.image.image_id }} :ratio="16 / 9" />
+      <q-img width="700px" height="400px" src="" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
       <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
@@ -16,7 +16,7 @@
         v-bind:key="odgovor.id"
         v-model="state.odabraniOdgovor"
         :val="odgovor.id"
-        :label="getAnswers()"
+        :label="odgovor.croatian_name"
         color="teal"
       />
     </div>
