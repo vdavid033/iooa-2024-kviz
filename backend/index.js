@@ -143,6 +143,7 @@ app.get("/useful_part", function (request, response) {
   });
 });
 
+/*
 // Retrieve useful_part with id
 app.get("/useful_part/:id", function (request, response) {
   let useful_part_id = request.params.id;
@@ -163,7 +164,9 @@ app.get("/useful_part/:id", function (request, response) {
       });
     }
   );
-});
+});*/
+
+
 
 // Dohvat biljne porodice za jednu biljnu vrstu #21
 app.get("/botanical_family_plant_species/:id", function (request, response) {
@@ -208,3 +211,52 @@ app.get("/image/:id", function (request, response) {
     }
   );
 });
+
+
+// Dohvat svih uporabnih dijelova za određenu biljnu vrstu ili uporabnog dijela prema id uporabnog dijela, pod pretpostavkom da je id pitanja za prvi slučaj 5, a za drugi 6
+app.get("/useful_part/:id/:questionid", function (request, response) {
+  let plant_species_id = request.params.id;
+  let question_id = request.params.questionid;
+  
+  ;
+  if (!plant_species_id) {
+    return response
+      .status(400)
+      .send({ error: true, message: "Please provide plant_species_id" });
+  }
+  if(question_id==5){
+ dbConn.query(
+    "SELECT ps.id, ps.croatian_name, up.croatian_name, up.latin_name FROM useful_part up LEFT OUTER JOIN plant_part pp ON up.id=pp.useful_part_id LEFT OUTER JOIN plant_species ps ON pp.plant_species_id=ps.id WHERE ps.id=?",
+    plant_species_id,
+    function (error, results, fields) {
+      if (error) throw error;
+      return response.send({
+        error: false,
+        data: results,
+        message: "plant_species_usful_parts.", 
+      });
+    }
+  );
+
+    
+  }else if (question_id==6){
+     dbConn.query(
+    "SELECT * FROM useful_part where id=?",
+    plant_species_id,
+    function (error, results, fields) {
+      if (error) throw error;
+      return response.send({
+        error: false,
+        data: results[0],
+        message: "useful_part list.",
+      });
+    }
+  );
+  }
+  
+
+});
+
+
+
+
