@@ -188,7 +188,7 @@ app.get("/botanical_family_plant_species/:id", function (request, response) {
 });
 
 // Dohvat fotografije za određenu biljnu vrstu -> Emina i Ivan
-app.get("/get_image/:id", function (request, response) {
+app.get("/image/:id", function (request, response) {
   let get_image_id = request.params.id;
   if (!get_image_id) {
     return response
@@ -203,7 +203,7 @@ app.get("/get_image/:id", function (request, response) {
       return response.send({
         error: false,
         data: results[0],
-        message: "plant_species_image", 
+        message: "plant_species_image.", 
       });
     }
   );
