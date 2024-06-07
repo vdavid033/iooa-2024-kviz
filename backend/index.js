@@ -192,15 +192,15 @@ app.get("/botanical_family_plant_species/:id", function (request, response) {
 
 // Dohvat fotografije za određenu biljnu vrstu -> Emina i Ivan
 app.get("/image/:id", function (request, response) {
-  let get_image_id = request.params.id;
-  if (!get_image_id) {
+  let plant_id = request.params.id;
+  if (!plant_id) {
     return response
       .status(400)
-      .send({ error: true, message: "Please provide get_image_id" });
+      .send({ error: true, message: "Please provide plant_id" });
   }
   dbConn.query(
-    "SELECT i.id, i.image_url FROM image i LEFT JOIN plant_species_image psi ON i.id=psi.image_id LEFT JOIN plant_species ps ON psi.plant_species_id=ps.id WHERE ps.id=? LIMIT 1",
-    get_image_id,
+    "SELECT  i.image_url FROM image i LEFT JOIN plant_species_image psi ON i.id=psi.image_id LEFT JOIN plant_species ps ON psi.plant_species_id=ps.id WHERE ps.id=? LIMIT 1",
+    plant_id,
     function (error, results, fields) {
       if (error) throw error;
       return response.send({
