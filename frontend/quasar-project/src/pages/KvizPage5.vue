@@ -7,7 +7,7 @@
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img width="700px" height="400px" src="" :ratio="16 / 9" />
+      <q-img width="700px" height="400px" :src="state.image" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
       <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
@@ -126,7 +126,7 @@ export default {
       tocanOdgovor: {},
       brojTocnih: 0,
       brojNetocnih: 0,
-      image: {},
+      image: "",
       alert: false,
       zavrsniPopup: false,
     });
@@ -134,6 +134,7 @@ export default {
     onMounted(async () => {
       await randomPlant();
       await getRandomBotanicalPlant();
+      await getImage();
       
     });
 
@@ -145,9 +146,24 @@ export default {
     //za dohvat slike
     async function getImage() {
       const json = await axios.get(
-        `http://localhost:3000/plant_species/${state.image.image_id}`
+        `http://localhost:3000/plant_species/${state.plant.id}`
       );
-      state.image = json.data.data;
+      const data =  json.data.data;
+
+      if(data){
+      
+      if(Object.getOwnPropertyNames(json.data).length===0|| json.data.data===undefined){
+        
+        state.image="";
+      }else{
+       
+        const image=data;
+       state.image=image.image_url;
+       }}
+       else{
+        state.image="";
+       }
+      
     }
 
 
