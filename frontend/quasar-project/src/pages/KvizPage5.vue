@@ -224,25 +224,47 @@ export default {
       await getCorrectAnswerFromBotanicalFamily();
 
       let botanicList = [];
+      botanicList.push(state.tocanOdgovor);
 
       // dok lista nema 2 odgovora, trazi i dodaj novi
-      while (botanicList.length < 3) {
+      while (botanicList.length < 4) {
         let index = Math.round(Math.random() * (botanicalFamily.length - 1));
         let botanicObject = {
           id: botanicalFamily[index].id,
           latin_name: botanicalFamily[index].latin_name,
           croatian_name: botanicalFamily[index].croatian_name, // Adding Croatian name
         };
+
+ ///// gledamo ako je odogovor već u listi, ako je je true-> break 
+        var found=false;
+for(var i=0;i<botanicList.length;i++){
+if(botanicList[i].id==botanicObject?.id){
+found=true;
+break;
+}
+}
+///// ukoliko nije odgovor u listi, dodaj ga
+if(!found){
+botanicList.push(botanicObject);
+}
+
+
+
+
+
+
+
+        
         // dodaje odgovor u listu samo ako takav odgovor vec ne postoji i ako odgovor nije jednak tocnom odgovoru
-        if (
+        /*if (
           botanicObject.id !== botanicList[0]?.id &&
           botanicObject.id !== state.tocanOdgovor?.id
         ) {
           botanicList.push(botanicObject);
-        }
+        }*/
       }
       // nakon sto u listi odgovora imamo 2 razlicita odgovora, u listu dodajemo tocan odgovor
-      botanicList.push(state.tocanOdgovor);
+     // botanicList.push(state.tocanOdgovor);  
 
       // pitanja u listi se sortiraju kako bi poredak bio random
       state.odgovori = botanicList
