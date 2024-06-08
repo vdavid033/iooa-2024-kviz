@@ -16,7 +16,7 @@
         v-bind:key="odgovor.id"
         v-model="state.odabraniOdgovor"
         :val="odgovor.id"
-        :label="odgovor.croatian_name"
+        :label="getLabelOdgovor(odgovor)"
         color="teal"
       />
     </div>
@@ -291,15 +291,18 @@ export default {
         window.location.reload();
       };
     },
-    // ne riješeno za sada.... - Emina i Ivan
-    getLabel(odgovor) {
-      if (state.pitanje == [0] || state.pitanje == [2]) {
-        console.log(this.odgovor.latin_name);
-        return this.odgovor.latin_name;
-      } else {
-        // Add logic for other cases if needed
-        return this.odgovor.croatian_name;
-      }
+    // PRORADILO... - Emina i Hrvoje
+    getLabelOdgovor(odgovor) {
+      const pitanje = this.state.pitanje
+      if (pitanje.includes("latinski naziv")) {
+           return odgovor.latin_name;
+         } else if (pitanje.includes("hrvatski naziv")) {
+          return odgovor.croatian_name;
+         } else if (pitanje.includes("botaničkoj")) {
+          return odgovor.latin_name;
+         } else if (pitanje.includes("nalazi na slici")) {
+          return odgovor.croatian_name;
+         }
     },
 
     brPitanja() {
