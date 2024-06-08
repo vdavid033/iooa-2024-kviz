@@ -40,7 +40,12 @@
         color="white"
         text-color="black"
         label="Završi i predaj"
-        @click="state.zavrsniPopup = true"
+        @click=" 
+        state.odabraniOdgovor === state.tocanOdgovor.id
+            ? (state.brojTocnih = state.brojTocnih + 1)
+            : (state.brojNetocnih = state.brojNetocnih + 1);
+        state.zavrsniPopup = true;
+        "
         disabled
       />
       <q-btn
