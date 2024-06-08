@@ -146,7 +146,7 @@ export default {
     //za dohvat slike
     async function getImage() {
       const json = await axios.get(
-        `http://localhost:3000/plant_species/${state.plant.id}`
+        `http://localhost:3000/image/${state.plant.id}`
       );
       const data =  json.data.data;
 
