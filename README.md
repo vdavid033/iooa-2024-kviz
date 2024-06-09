@@ -38,5 +38,18 @@ Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija 
 $ git clone https://github.com/vdavid033/iooa-2024-kviz.git
 ```
 
+## POKRETANJE APLIKACIJE
+
+1. Na računalu kreirati mapu koju potom otvaramo pomoću VS Code-a (File -> Open folder -> odabir kreirane mape)
+2. Otvorimo Terminal -> New Terminal
+3. U terminalu pozvati naredbu za kloniranje i pričekati da se klonira
+4. U terminalu se prebacimo u backend pomoću naredbe **cd backend**
+5. Pozivamo naredbu za instalaciju potrebnih paketa **npm install express mysql cors body-parser** i pričekati da se instalira
+6. naredbom **node index.js** pokrećemo backend
+7. Otvaramo novi terminal te se pozicioniramo u frontend naredbom **cd frontend**
+8. Potom je potrebno se pozicionirati u quasar pomoću naredbe **cd quasar-project**
+9. I potom pokrećemo naredbu **npm install** te pričekamo da se instalacija završi
+10. Pozivamo naredbu **quasar dev** i aplikacija se pokreće
+
 Frontend:
 http://localhost:8080/#/kviz5
