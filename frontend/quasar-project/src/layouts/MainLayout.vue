@@ -18,8 +18,15 @@
           Dobrodošli u kviz o biljnim vrstama
         </q-toolbar-title>
 
-        <q-btn
+        <!-- <q-btn
           href="http://agro.veleri.hr/biljne-vrste/"
+          label="Glavna stranica"
+          color="white"
+          flat
+          icon="home"
+        /> -->
+        <q-btn
+          href="/#/ErrorNotFound"
           label="Glavna stranica"
           color="white"
           flat
