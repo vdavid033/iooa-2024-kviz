@@ -20,6 +20,9 @@ ALATI
 - vue-axios(3.4.1)
 - vue-router(4.0.0)
 - mySql(2.18.1)
+- ExpressJS
+- NodeJS
+- body-parser
 
 Frontend:
 http://localhost:8080/#/kviz5
