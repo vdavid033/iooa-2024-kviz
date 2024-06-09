@@ -9,7 +9,7 @@
           flat
           icon="directions"
         />
-        <q-toolbar-title class="text-weight-medium text-center text-h3">
+        <q-toolbar-title class="text-weight-medium text-center text-h5">
           <q-avatar>
             <img
               src="https://ichef.bbci.co.uk/news/976/cpsprodpb/C130/production/_123665494_mediaitem123664184.jpg"

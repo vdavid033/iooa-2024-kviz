@@ -1,16 +1,16 @@
 <template>
   <div class="relative fixed-center">
     <div class="q-pa-md q-gutter-sm">
-      <q-banner inline-actions rounded class="bg-green text-white">
+      <q-banner inline-actions rounded class="bg-positive text-white">
         <div id class="text-h5 h5 full-width">
           <span><a id="clicks">1</a>. </span>
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img width="700px" height="400px" :src="state.image" :ratio="16 / 9" />
+      <q-img width="700px" height="350px" :src="state.image" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
-      <!-- Ovdje moramo napraviti funkciju koja prolazi kroz vrstu pitanja i sukladno tome ispisuje odgovore na hr, latinskom i slicno-->
+      <!-- pozivanje metode getLabelOdgovor koja provjerava pitanja i daje osgovore sukladno zadanome-->
       <q-radio
         v-for="odgovor in state.odgovori"
         v-bind:key="odgovor.id"
@@ -342,6 +342,7 @@ botanicList.push(botanicObject);
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  flex-wrap: wrap;
+  width: 700px;
+  margin-left: 15px;
 }
 </style>
