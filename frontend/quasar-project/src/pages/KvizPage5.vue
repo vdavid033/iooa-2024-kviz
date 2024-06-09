@@ -95,29 +95,59 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <q-dialog v-model="state.zavrsniPopup" persistent>
-        <q-card>
-          <q-card-section>
-            <div class="text-h6">Rezultat</div>
-          </q-card-section>
 
-          <q-card-section class="q-pt-none">
-            Broj tocnih odgovora: {{ state.brojTocnih }}
-          </q-card-section>
-          <q-card-section class="q-pt-none">
-            Broj netocnih odgovora: {{ state.brojNetocnih }}
-          </q-card-section>
-          <q-card-actions align="right">
-            <q-btn
-              flat
-              label="OK"
-              color="primary"
-              v-close-popup
-              href="/"
-            ></q-btn>
-          </q-card-actions>
-        </q-card>
+      <!-- Završni popup -->
+      <q-dialog v-model="state.zavrsniPopup" persistent>
+        <div>
+          <!--State alert popup (zadnji odgovor) spojen sa završnim popup-om zbog prikaza -->
+          <q-card>
+            <q-card-section class="text-center">
+              <div class="text-h6">
+                {{
+                  state.odabraniOdgovor === state.tocanOdgovor.id
+                    ? "Točno!"
+                    : "Netočno!"
+                }}
+              </div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              {{
+                state.odabraniOdgovor === state.tocanOdgovor.id
+                  ? state.plant.latin_name +
+                    " je latinski naziv za " +
+                    state.tocanOdgovor.croatian_name
+                  : state.plant.latin_name +
+                    " je latinski naziv za " +
+                    state.tocanOdgovor.croatian_name
+              }}
+            </q-card-section>
+
+            <!--Rezultat popup-->
+
+            <q-card-section class="text-center">
+              <div class="text-h6" style="margin-bottom: 10px">Rezultat</div>
+
+              <q-card-section class="q-pt-none">
+                Broj točnih odgovora: {{ state.brojTocnih }}
+              </q-card-section>
+              <q-card-section class="q-pt-none">
+                Broj netočnih odgovora: {{ state.brojNetocnih }}
+              </q-card-section>
+              <q-card-actions align="center">
+                <q-btn
+                  flat
+                  label="Početna stranica"
+                  color="primary"
+                  v-close-popup
+                  href="/"
+                ></q-btn>
+              </q-card-actions>
+            </q-card-section>
+          </q-card>
+        </div>
       </q-dialog>
+      <!--Kraj završnog popup-a-->
     </div>
   </div>
 </template>
@@ -300,6 +330,7 @@ export default {
           button3.removeAttribute("disabled", false);
           button2.innerHTML = "Prihvati i zavrsi";
           button1.setAttribute("disabled", true);
+          button1.style.display = "none";
         }
       }
       button1.addEventListener("click", buttonPressed, true);
@@ -338,5 +369,43 @@ export default {
   flex-direction: column;
   width: 700px;
   margin-left: 15px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .odgovori {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .odgovori {
+    flex-direction: column;
+    align-items: center; /* Da bi odgovori bili centrirani u koloni */
+  }
+
+  .odgovori q-radio {
+    width: 100%; /* Postavljamo širinu svakog elementa na 100% */
+    margin-bottom: 10px; /* Dodajemo malo prostora između odgovora */
+  }
+
+  #pitanje {
+    text-align: center;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    font-size: 16px; /* Smanjujemo font da stane na screen ispod 768px */
+  }
+  .q-toolbar__title {
+    display: none; /* Uklanjamo logo */
+  }
+  .q-pa-md.q-gutter-sm {
+    /* Flexbox -> buttoni jedan ispod drugoga */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>
