@@ -187,10 +187,10 @@ export default {
 
       // u state.pitanje spremamo tekst pitanja
       state.pitanje = [
-        "Koji je latinski naziv za " + state.plant.croatian_name,
-        "Koji je hrvatski naziv za " + state.plant.latin_name,
-        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name,
-        "Koja biljna vrsta se nalazi na slici ",
+        "Koji je latinski naziv za " + state.plant.croatian_name +"?",
+        "Koji je hrvatski naziv za " + state.plant.latin_name +"?",
+        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name+"?",
+        "Koja biljna vrsta se nalazi na slici?",
       ];
       const randomQuestionIndex = Math.floor(
         Math.random() * state.pitanje.length
