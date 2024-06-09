@@ -14,7 +14,7 @@ Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija 
  - Prigodna poruka na kraju testa (zbroj točnih-netočnih odgovora)
 
 
- ![Pitanje](/DOKUMENTACIJA/IMAGES/Pitanje.png)![Kraj](/DOKUMENTACIJA/IMAGES/Zavrsetak%20kviza.png)
+ ![Pitanje](/DOKUMENTACIJA/IMAGES/PitanjePrimjer.png)![Kraj](/DOKUMENTACIJA/IMAGES/Kraj.png)
 
 
 
