@@ -108,7 +108,7 @@
             Broj netocnih odgovora: {{ state.brojNetocnih }}
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup></q-btn>
+            <q-btn flat label="OK" color="primary" v-close-popup href="/"></q-btn>
           </q-card-actions>
         </q-card>
       </q-dialog>
