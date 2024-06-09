@@ -26,8 +26,8 @@
           icon="home"
         /> -->
         <q-btn
-          href="/#/ErrorNotFound"
-          label="Glavna stranica"
+          href="https://www.agroklub.com/sortna-lista/"
+          label="Agro klub"
           color="white"
           flat
           icon="home"
