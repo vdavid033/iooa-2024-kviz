@@ -31,5 +31,12 @@ Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija 
 - NodeJS(12.22.1)
 - body-parser(1.20.2)
 
+
+## CLONE
+
+```
+$ git clone https://github.com/vdavid033/iooa-2024-kviz.git
+```
+
 Frontend:
 http://localhost:8080/#/kviz5
