@@ -39,12 +39,12 @@
         id="PrihvatiIZavrsi"
         color="white"
         text-color="black"
-        label="Završi i predaj"
-        @click=" 
-        state.odabraniOdgovor === state.tocanOdgovor.id
+        label="Prihvati i zavrsi"
+        @click="
+          state.odabraniOdgovor === state.tocanOdgovor.id
             ? (state.brojTocnih = state.brojTocnih + 1)
             : (state.brojNetocnih = state.brojNetocnih + 1);
-        state.zavrsniPopup = true;
+          state.zavrsniPopup = true;
         "
         disabled
       />
@@ -108,7 +108,13 @@
             Broj netocnih odgovora: {{ state.brojNetocnih }}
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup href="/"></q-btn>
+            <q-btn
+              flat
+              label="OK"
+              color="primary"
+              v-close-popup
+              href="/"
+            ></q-btn>
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -140,7 +146,6 @@ export default {
       await randomPlant();
       await getRandomBotanicalPlant();
       await getImage();
-      
     });
 
     async function handleClose() {
@@ -153,24 +158,22 @@ export default {
       const json = await axios.get(
         `http://localhost:3000/image/${state.plant.id}`
       );
-      const data =  json.data.data;
+      const data = json.data.data;
 
-      if(data){
-      
-      if(Object.getOwnPropertyNames(json.data).length===0|| json.data.data===undefined){
-        
-        state.image="";
-      }else{
-       
-        const image=data;
-       state.image=image.image_url;
-       }}
-       else{
-        state.image="";
-       }
-      
+      if (data) {
+        if (
+          Object.getOwnPropertyNames(json.data).length === 0 ||
+          json.data.data === undefined
+        ) {
+          state.image = "";
+        } else {
+          const image = data;
+          state.image = image.image_url;
+        }
+      } else {
+        state.image = "";
+      }
     }
-
 
     // funkcija koja dohvaca random plant species i postavlja vrijednost u state.plant
     async function randomPlant() {
@@ -187,9 +190,9 @@ export default {
 
       // u state.pitanje spremamo tekst pitanja
       state.pitanje = [
-        "Koji je latinski naziv za " + state.plant.croatian_name +"?",
-        "Koji je hrvatski naziv za " + state.plant.latin_name +"?",
-        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name+"?",
+        "Koji je latinski naziv za " + state.plant.croatian_name + "?",
+        "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
+        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
       ];
       const randomQuestionIndex = Math.floor(
@@ -199,22 +202,20 @@ export default {
       state.pitanje = state.pitanje[randomQuestionIndex];
     }
 
-    //pokušaj pisanja funkcije 
-    async function getAnswers(){
-        if (state.pitanje ==  0 || state.pitanje ==2 ){
-          getRandomBotanicalPlant();
-          return state.plant.croatian_name
-
-        } else if ( state.pitanje ==  1  || state.pitanje == 3){
-          getRandomBotanicalPlant();
-          return state.plant.latin_name
-        }
-        return {
-          getAnswers
-        }
+    //pokušaj pisanja funkcije
+    async function getAnswers() {
+      if (state.pitanje == 0 || state.pitanje == 2) {
+        getRandomBotanicalPlant();
+        return state.plant.croatian_name;
+      } else if (state.pitanje == 1 || state.pitanje == 3) {
+        getRandomBotanicalPlant();
+        return state.plant.latin_name;
       }
-    
-      
+      return {
+        getAnswers,
+      };
+    }
+
     // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
     async function getRandomBotanicalPlant() {
       const json = await axios.get(`http://localhost:3000/botanical_family`);
@@ -235,26 +236,19 @@ export default {
           croatian_name: botanicalFamily[index].croatian_name, // Adding Croatian name
         };
 
- ///// gledamo ako je odogovor već u listi, ako je je true-> break 
-        var found=false;
-for(var i=0;i<botanicList.length;i++){
-if(botanicList[i].id==botanicObject?.id){
-found=true;
-break;
-}
-}
-///// ukoliko nije odgovor u listi, dodaj ga
-if(!found){
-botanicList.push(botanicObject);
-}
+        ///// gledamo ako je odogovor već u listi, ako je je true-> break
+        var found = false;
+        for (var i = 0; i < botanicList.length; i++) {
+          if (botanicList[i].id == botanicObject?.id) {
+            found = true;
+            break;
+          }
+        }
+        ///// ukoliko nije odgovor u listi, dodaj ga
+        if (!found) {
+          botanicList.push(botanicObject);
+        }
 
-
-
-
-
-
-
-        
         // dodaje odgovor u listu samo ako takav odgovor vec ne postoji i ako odgovor nije jednak tocnom odgovoru
         /*if (
           botanicObject.id !== botanicList[0]?.id &&
@@ -264,7 +258,7 @@ botanicList.push(botanicObject);
         }*/
       }
       // nakon sto u listi odgovora imamo 2 razlicita odgovora, u listu dodajemo tocan odgovor
-     // botanicList.push(state.tocanOdgovor);  
+      // botanicList.push(state.tocanOdgovor);
 
       // pitanja u listi se sortiraju kako bi poredak bio random
       state.odgovori = botanicList
@@ -315,16 +309,16 @@ botanicList.push(botanicObject);
     },
     // PRORADILO... - Emina i Hrvoje
     getLabelOdgovor(odgovor) {
-      const pitanje = this.state.pitanje
+      const pitanje = this.state.pitanje;
       if (pitanje.includes("latinski naziv")) {
-           return odgovor.latin_name;
-         } else if (pitanje.includes("hrvatski naziv")) {
-          return odgovor.croatian_name;
-         } else if (pitanje.includes("botaničkoj")) {
-          return odgovor.latin_name;
-         } else if (pitanje.includes("nalazi na slici")) {
-          return odgovor.croatian_name;
-         }
+        return odgovor.latin_name;
+      } else if (pitanje.includes("hrvatski naziv")) {
+        return odgovor.croatian_name;
+      } else if (pitanje.includes("botaničkoj")) {
+        return odgovor.latin_name;
+      } else if (pitanje.includes("nalazi na slici")) {
+        return odgovor.croatian_name;
+      }
     },
 
     brPitanja() {
