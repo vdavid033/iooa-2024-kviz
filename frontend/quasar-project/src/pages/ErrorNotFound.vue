@@ -17,7 +17,7 @@
         text-color="blue"
         unelevated
         to="/"
-        label="Idi na kviz"
+        label="Pocetna stranica"
         no-caps
       />
     </div>
