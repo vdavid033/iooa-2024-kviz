@@ -4,7 +4,7 @@
   >
     <div>
       <div style="font-size: 10vh">
-        Izgradnja objektno orjentiranih tehnologija
+        Izgradnja objektno orjentiranih aplikacija
       </div>
 
       <div class="text-h2" style="opacity: 0.4">
@@ -17,7 +17,7 @@
         text-color="blue"
         unelevated
         to="/"
-        label="Pocetna stranica"
+        label="Vrati me!"
         no-caps
       />
     </div>

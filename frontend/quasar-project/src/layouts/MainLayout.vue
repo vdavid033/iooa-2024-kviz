@@ -10,9 +10,9 @@
           icon="directions"
         />
         <q-toolbar-title class="text-weight-medium text-center text-h5">
-          <q-avatar>
+          <q-avatar style="width: 50px; height: 50px">
             <img
-              src="https://ichef.bbci.co.uk/news/976/cpsprodpb/C130/production/_123665494_mediaitem123664184.jpg"
+              src="https://www.plantea.com.hr/wp-content/uploads/2015/11/tratincica-26.jpg"
             />
           </q-avatar>
           Dobrodošli u kviz o biljnim vrstama
