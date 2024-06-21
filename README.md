@@ -1,23 +1,34 @@
-# iooa-2024-kviz
-Features: 
- - Start the quiz (Započni kviz)
-   
- - 10 random questions about plant species, croatian and latin names and discovering what kind of plant is in the picture
-    - 4 types of question:
-       - 1. type of question is: "Koji je latinski naziv za " + state.plant.croatian_name
-       - 2. type of question is: "Koji je hrvatski naziv za " + state.plant.latin_name
-       - 3. type of question is: "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name
-       - 4. type of question is: "Koja biljna vrsta se nalazi na slici "
-            
- - every question has 4 answers (one is correct)
-    - where is question "Koji je latinski naziv..." the application displays  latin answers (names) from database
-    - where is question "Koji je hrvatski naziv..." the application displays  croatioan answers (names) from database
-    - where is question "Kojoj botaničkoj vrsti..." the application displays  latin answers (names) from database
-    - where is question "Koja biljna vrsta se nalazi na slici" the application displays  latin answers (names) from database
-      
- - After each answered question, the application shows the user a notification about the answer is correct or not
-   
- - When the user answers all the question, application will display a message with the sum of correct and incorrect answers
+# KVIZ O BILJNIM VRSTAMA
+
+## UVOD
+
+Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija Agroturizma za učenje o biljnim vrstama, formirajući kviz s različitim tipovima pitanja koji služi za provjeru njihovog znanja.
+
+![Kviz](/DOKUMENTACIJA/IMAGES/Pocetna.png)
+
+## FUNKCIONALNOSTI:
+
+- Započni kviz
+- 10 random pitanja
+- 4 ponuđena odgovora za svako pitanje
+- Prigodna poruka (točno-netočno) nakon svakog odgovorenog pitanja
+- Prigodna poruka na kraju testa (zbroj točnih-netočnih odgovora)
+
+![Pitanje](/DOKUMENTACIJA/IMAGES/PitanjePrimjer.png)![Kraj](/DOKUMENTACIJA/IMAGES/Kraj.png)
+
+## ALATI
+
+- VS code
+- VUE.js(3.0.0)
+- Quasar(2.6.0)
+- axios(0.27.2)
+- vue(3.0.0)
+- vue-axios(3.4.1)
+- vue-router(4.0.0)
+- mySql(2.18.1)
+- ExpressJS(4.19.2)
+- NodeJS(12.22.1)
+- body-parser(1.20.2)
 
 Frontend:
 http://localhost:8080/#/kviz5

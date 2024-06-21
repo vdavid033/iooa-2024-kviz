@@ -1,12 +1,14 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div
+    class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center"
+  >
     <div>
-      <div style="font-size: 30vh">
-        404
+      <div style="font-size: 10vh">
+        Izgradnja objektno orjentiranih aplikacija
       </div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+      <div class="text-h2" style="opacity: 0.4">
+        Oops. Nepostojeća stranica!
       </div>
 
       <q-btn
@@ -15,7 +17,7 @@
         text-color="blue"
         unelevated
         to="/"
-        label="Go Home"
+        label="Vrati me!"
         no-caps
       />
     </div>
@@ -23,9 +25,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'ErrorNotFound'
-})
+  name: "ErrorNotFound",
+});
 </script>

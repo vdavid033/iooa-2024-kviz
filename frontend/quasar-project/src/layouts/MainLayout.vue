@@ -9,18 +9,25 @@
           flat
           icon="directions"
         />
-        <q-toolbar-title class="text-weight-medium text-center text-h3">
-          <q-avatar>
+        <q-toolbar-title class="text-weight-medium text-center text-h5">
+          <q-avatar style="width: 50px; height: 50px">
             <img
-              src="https://ichef.bbci.co.uk/news/976/cpsprodpb/C130/production/_123665494_mediaitem123664184.jpg"
+              src="https://www.plantea.com.hr/wp-content/uploads/2015/11/tratincica-26.jpg"
             />
           </q-avatar>
           Dobrodošli u kviz o biljnim vrstama
         </q-toolbar-title>
 
-        <q-btn
+        <!-- <q-btn
           href="http://agro.veleri.hr/biljne-vrste/"
           label="Glavna stranica"
+          color="white"
+          flat
+          icon="home"
+        /> -->
+        <q-btn
+          href="https://www.agroklub.com/sortna-lista/"
+          label="Agro klub"
           color="white"
           flat
           icon="home"
