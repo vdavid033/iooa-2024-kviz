@@ -31,4 +31,6 @@ Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija 
 - body-parser(1.20.2)
 
 Frontend:
-http://localhost:8080/#/kviz5
+
+Local host --> http://localhost:8080/#/kviz5
+Live --> https://biljnevrste.vercel.app/#/
