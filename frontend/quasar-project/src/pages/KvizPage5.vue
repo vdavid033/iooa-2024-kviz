@@ -7,7 +7,7 @@
           <span id="pitanje"> {{ state.pitanje }} </span>
         </div>
       </q-banner>
-      <q-img width="700px" height="350px" :src="state.image" :ratio="16 / 9" />
+      <q-img class="responzive-img" :src="state.image" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
       <!-- pozivanje metode getLabelOdgovor koja provjerava pitanja i daje osgovore sukladno zadanome-->
@@ -382,11 +382,9 @@ export default {
   margin: 10px 0; /* Dodajemo margine za bolji razmještaj */
 }
 
-q-img {
+.responsive-img {
   width: 100%;
   height: auto;
-  max-width: 700px; /* Maksimalna širina slike */
-  max-height: 350px; /* Maksimalna visina slike */
 }
 
 /* Stilizacija za manje ekrane */
@@ -399,6 +397,8 @@ q-img {
 
 @media only screen and (max-width: 768px) {
   .odgovori {
+    width: 100%; /* Osigurava da odgovori zauzimaju cijelu širinu */
+    margin-left: 0;
     flex-direction: column;
     align-items: center;
   }
@@ -421,27 +421,71 @@ q-img {
     flex-direction: column;
     align-items: center;
   }
+
+  .responsive-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @media only screen and (max-width: 375px) {
   .odgovori {
     width: 100%;
     padding: 10px; /* Dodajemo padding za bolji razmještaj na malim ekranima */
+    align-items: center; /* Centriramo odgovore */
   }
 
   #pitanje {
     font-size: 14px; /* Dodatno smanjujemo font za vrlo male ekrane */
     margin: 10px 0; /* Dodajemo margine za bolji razmještaj */
     padding: 5px; /* Dodaje padding za bolje razmještanje */
+    text-align: center; /* Osiguravamo centriranje teksta */
   }
 
   .odgovori q-radio {
     margin-bottom: 8px; /* Smanjujemo marginu između odgovora */
+    width: 100%; /* Osiguravamo širinu odgovora */
+    font-size: 12px;
   }
 
   .q-pa-md.q-gutter-sm {
     width: 100%; /* Osigurava širinu elemenata */
     padding: 10px; /* Dodajemo padding za bolji razmještaj */
+    align-items: center; /* Centriramo elemente */
+  }
+
+  .responsive-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Dodatno podešavanje za veoma male ekrane */
+@media only screen and (max-width: 320px) {
+  #pitanje {
+    font-size: 10px; /* Još dodatno smanjujemo font za najmanje ekrane */
+    margin: 10px 0;
+    padding: 5px;
+  }
+
+  .odgovori {
+    padding: 5px;
+  }
+
+  .odgovori q-radio {
+    margin-bottom: 5px;
+  }
+
+  .q-pa-md.q-gutter-sm {
+    padding: 5px;
+  }
+
+  .responsive-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 }
 </style>
