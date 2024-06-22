@@ -186,7 +186,7 @@ export default {
     //za dohvat slike
     async function getImage() {
       const json = await axios.get(
-        `http://localhost:3000/image/${state.plant.id}`
+        `https://ivanturk.from.hr/image/${state.plant.id}`
       );
       const data = json.data.data;
 
@@ -208,7 +208,7 @@ export default {
     // funkcija koja dohvaca random plant species i postavlja vrijednost u state.plant
     async function randomPlant() {
       const jsonObject = await axios.get(
-        `http://localhost:3000/plant_species/`
+        `https://ivanturk.from.hr/plant_species/`
       );
       let randomPlant =
         jsonObject.data.data[
@@ -248,7 +248,7 @@ export default {
 
     // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
     async function getRandomBotanicalPlant() {
-      const json = await axios.get(`http://localhost:3000/botanical_family`);
+      const json = await axios.get(`https://ivanturk.from.hr/botanical_family`);
       const botanicalFamily = json.data.data;
 
       // funkcija koja dohvaca tocan odgovor i sprema ga u state.tocanOdgovor
@@ -303,7 +303,7 @@ export default {
     // funkcija dohvaca tocan odgovor za random plant species -> state.plant
     async function getCorrectAnswerFromBotanicalFamily() {
       const json = await axios.get(
-        `http://localhost:3000/plant_species/${state.plant.id}`
+        `https://ivanturk.from.hr/plant_species/${state.plant.id}`
       );
       state.tocanOdgovor = json.data.data;
     }
