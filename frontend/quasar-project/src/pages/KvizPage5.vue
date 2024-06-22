@@ -300,7 +300,7 @@ export default {
       state.odabraniOdgovor = state.odgovori[0].id;
     }
 
-    // funkcija dohvaca tocan odgovor za random plant species -> state.plant
+    // funkcija dohvaca tocan odgovor za random plant species -> state.plant/
     async function getCorrectAnswerFromBotanicalFamily() {
       const json = await axios.get(
         `https://ivanturk.from.hr/plant_species/${state.plant.id}`
