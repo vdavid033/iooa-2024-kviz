@@ -361,6 +361,7 @@ export default {
 </script>
 
 <style>
+/* Osnovna stilizacija */
 .odgovori {
   background: rgba(0, 0, 0, 0.1);
   display: flex;
@@ -371,6 +372,24 @@ export default {
   margin-left: 15px;
 }
 
+#pitanje {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-size: 18px; /* Veći font za veće ekrane */
+  margin: 10px 0; /* Dodajemo margine za bolji razmještaj */
+}
+
+q-img {
+  width: 100%;
+  height: auto;
+  max-width: 700px; /* Maksimalna širina slike */
+  max-height: 350px; /* Maksimalna visina slike */
+}
+
+/* Stilizacija za manje ekrane */
 @media only screen and (max-width: 1200px) {
   .odgovori {
     width: 100%;
@@ -381,31 +400,48 @@ export default {
 @media only screen and (max-width: 768px) {
   .odgovori {
     flex-direction: column;
-    align-items: center; /* Da bi odgovori bili centrirani u koloni */
+    align-items: center;
   }
 
   .odgovori q-radio {
-    width: 100%; /* Postavljamo širinu svakog elementa na 100% */
-    margin-bottom: 10px; /* Dodajemo malo prostora između odgovora */
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   #pitanje {
-    text-align: center;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    font-size: 16px; /* Smanjujemo font da stane na screen ispod 768px */
+    font-size: 16px; /* Smanjujemo font za manje ekrane */
   }
+
   .q-toolbar__title {
-    display: none; /* Uklanjamo logo */
+    display: none;
   }
+
   .q-pa-md.q-gutter-sm {
-    /* Flexbox -> buttoni jedan ispod drugoga */
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .odgovori {
+    width: 100%;
+    padding: 10px; /* Dodajemo padding za bolji razmještaj na malim ekranima */
+  }
+
+  #pitanje {
+    font-size: 14px; /* Dodatno smanjujemo font za vrlo male ekrane */
+    margin: 10px 0; /* Dodajemo margine za bolji razmještaj */
+    padding: 5px; /* Dodaje padding za bolje razmještanje */
+  }
+
+  .odgovori q-radio {
+    margin-bottom: 8px; /* Smanjujemo marginu između odgovora */
+  }
+
+  .q-pa-md.q-gutter-sm {
+    width: 100%; /* Osigurava širinu elemenata */
+    padding: 10px; /* Dodajemo padding za bolji razmještaj */
   }
 }
 </style>
