@@ -12,7 +12,7 @@ Web-aplikacija „Kviz o biljnim vrstama“ služi studentima stručnog studija 
 - 10 random pitanja
 - 4 ponuđena odgovora za svako pitanje
 - Prigodna poruka (točno-netočno) nakon svakog odgovorenog pitanja
-- Prigodna poruka na kraju testa (zbroj točnih-netočnih odgovora)
+- Prigodna poruka na kraju testa (postotak točno odgovorenih pitanja + ocjena sukladno postotku)
 
 ![Pitanje](/DOKUMENTACIJA/IMAGES/PitanjePrimjer.png)![Kraj](/DOKUMENTACIJA/IMAGES/Kraj.png)
 
