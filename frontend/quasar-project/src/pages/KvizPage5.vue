@@ -10,7 +10,7 @@
       <q-img class="responzive-img" :src="state.image" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
-      <!-- pozivanje metode getLabelOdgovor koja provjerava pitanja i daje osgovore sukladno zadanome-->
+      <!-- pozivanje metode getLabelOdgovor koja provjerava pitanja i daje odgovore sukladno zadanome-->
       <q-radio
         v-for="odgovor in state.odgovori"
         v-bind:key="odgovor.id"
@@ -128,11 +128,21 @@
             <q-card-section class="text-center">
               <div class="text-h6" style="margin-bottom: 10px">Rezultat</div>
 
-              <q-card-section class="q-pt-none">
+              <!--Uklonjen prikaz točnih i netočnih odgovora, prikazan samo postotak-->
+
+              <!-- <q-card-section class="q-pt-none">
                 Broj točnih odgovora: {{ state.brojTocnih }}
               </q-card-section>
               <q-card-section class="q-pt-none">
                 Broj netočnih odgovora: {{ state.brojNetocnih }}
+              </q-card-section> -->
+
+              <q-card-section class="q-pt-none">
+                {{ postotak }}% točnih odgovora
+              </q-card-section>
+              <div class="text-h6" style="margin-bottom: 10px">Ocjena</div>
+              <q-card-section class="q-pt-none">
+                {{ ocjena }}
               </q-card-section>
               <q-card-actions align="center">
                 <q-btn
@@ -153,7 +163,7 @@
 </template>
 
 <script>
-import { onMounted, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { axios } from "../boot/axios";
 var clicks = 1;
 export default {
@@ -170,6 +180,27 @@ export default {
       image: "",
       alert: false,
       zavrsniPopup: false,
+    });
+
+    // svojstvo za izračun postotka točnih odgovora
+    const postotak = computed(() => {
+      return (state.brojTocnih / 10) * 100;
+    });
+
+    // svojstvo za izračun ocjene sukladno postotku točnih odgovora
+    // postotak.value se koristi direktno u else/if da se izbjegne dodatna varijabla (.value jer "computed" vraća objekt sa property-em value)
+    const ocjena = computed(() => {
+      if (postotak.value < 50) {
+        return "Nedovoljan (1) - F";
+      } else if (postotak.value < 60) {
+        return "Dovoljan (2) - D";
+      } else if (postotak.value < 75) {
+        return "Dobar (3) - C";
+      } else if (postotak.value < 90) {
+        return "Vrlo dobar (4) - B";
+      } else {
+        return "Izvrstan (5) - A";
+      }
     });
 
     onMounted(async () => {
@@ -314,6 +345,8 @@ export default {
       getRandomBotanicalPlant,
       getCorrectAnswerFromBotanicalFamily,
       handleClose,
+      postotak,
+      ocjena,
     };
   },
   methods: {
