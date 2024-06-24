@@ -98,35 +98,38 @@
 
       <!-- Završni popup -->
       <q-dialog v-model="state.zavrsniPopup" persistent>
-        <div>
-          <!--State alert popup (zadnji odgovor) spojen sa završnim popup-om zbog prikaza -->
+        <div class="text-h6">
           <q-card>
+            <!--State alert popup (zadnji odgovor) spojen sa završnim popup-om zbog prikaza -->
+
             <q-card-section class="text-center">
-              <div class="text-h6">
+              <div>
                 {{
                   state.odabraniOdgovor === state.tocanOdgovor.id
                     ? "Točno!"
                     : "Netočno!"
                 }}
               </div>
+              <div>
+                {{
+                  state.odabraniOdgovor === state.tocanOdgovor.id
+                    ? state.plant.latin_name +
+                      " je latinski naziv za " +
+                      state.tocanOdgovor.croatian_name
+                    : state.plant.latin_name +
+                      " je latinski naziv za " +
+                      state.tocanOdgovor.croatian_name
+                }}
+              </div>
             </q-card-section>
+          </q-card>
 
-            <q-card-section class="q-pt-none">
-              {{
-                state.odabraniOdgovor === state.tocanOdgovor.id
-                  ? state.plant.latin_name +
-                    " je latinski naziv za " +
-                    state.tocanOdgovor.croatian_name
-                  : state.plant.latin_name +
-                    " je latinski naziv za " +
-                    state.tocanOdgovor.croatian_name
-              }}
-            </q-card-section>
+          <q-card-section class="q-pt-none"> </q-card-section>
 
-            <!--Rezultat popup-->
-
+          <!--Rezultat popup-->
+          <q-card>
             <q-card-section class="text-center">
-              <div class="text-h6" style="margin-bottom: 10px">Rezultat</div>
+              <div class="text-h6" style="margin-bottom: 10px">REZULTAT</div>
 
               <!--Uklonjen prikaz točnih i netočnih odgovora, prikazan samo postotak-->
 
@@ -187,7 +190,7 @@ export default {
       return (state.brojTocnih / 10) * 100;
     });
 
-    // svojstvo za izračun ocjene sukladno postotku točnih odgovora
+    // funkcija za izračun ocjene sukladno postotku točnih odgovora
     // postotak.value se koristi direktno u else/if da se izbjegne dodatna varijabla (.value jer "computed" vraća objekt sa property-em value)
     const ocjena = computed(() => {
       if (postotak.value < 50) {
