@@ -258,6 +258,8 @@ export default {
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
         "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
+        "Kojoj botaničkoj porodici pripada biljna vrsta koja se nalazi na slici?",
+        "Koje bioaktivne tvari sadrži biljna vrsta koja se nalazi na slici?",
       ];
       const randomQuestionIndex = Math.floor(
         Math.random() * state.pitanje.length
