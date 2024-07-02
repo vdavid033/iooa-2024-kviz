@@ -239,6 +239,8 @@ export default {
       }
     }
 
+    
+
     // funkcija koja dohvaca random plant species i postavlja vrijednost u state.plant
     async function randomPlant() {
       const jsonObject = await axios.get(
@@ -258,8 +260,7 @@ export default {
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
         "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
-        "Kojoj botaničkoj porodici pripada biljna vrsta koja se nalazi na slici?",
-        "Koje bioaktivne tvari sadrži biljna vrsta koja se nalazi na slici?",
+        "Koje bioaktivne tvari sadrži " + state.plant.croatian_name + "?",
       ];
       const randomQuestionIndex = Math.floor(
         Math.random() * state.pitanje.length
@@ -354,6 +355,11 @@ export default {
       ocjena,
     };
   },
+
+
+
+
+  
   methods: {
     prikaziGumb() {
       ("use strict");
@@ -396,6 +402,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style>
