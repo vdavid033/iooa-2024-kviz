@@ -224,6 +224,7 @@ export default {
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
         "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
+        "Koje bioaktivne tvari sadrži " + state.plant.croatian_name + "?",
       ];
       const randomQuestionIndex = Math.floor(
         Math.random() * state.pitanje.length
@@ -251,6 +252,7 @@ export default {
       const json = await axios.get(`http://localhost:3000/botanical_family`);
       const botanicalFamily = json.data.data;
 
+      
       // funkcija koja dohvaca tocan odgovor i sprema ga u state.tocanOdgovor
       await getCorrectAnswerFromBotanicalFamily();
 
@@ -308,6 +310,17 @@ export default {
       state.tocanOdgovor = json.data.data;
     }
 
+
+
+    
+    async function getCorrectAnswerFromBioactiveSubstance() {
+      const json = await axios.get(
+        `http://localhost:3000/bioactive_substance/${bioactive.substance.id}`
+      );
+      state.tocanOdgovor = json.data.data;
+    }
+
+
     return {
       state,
       randomPlant,
@@ -316,6 +329,9 @@ export default {
       handleClose,
     };
   },
+
+  
+  
   methods: {
     prikaziGumb() {
       ("use strict");
@@ -358,6 +374,11 @@ export default {
     },
   },
 };
+
+
+
+
+
 </script>
 
 <style>

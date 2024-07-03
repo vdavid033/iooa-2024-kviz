@@ -255,6 +255,37 @@ app.get("/useful_part/:id/:questionid", function (request, response) {
   }
   
 
+  app.get('/bioactive_substances', async (req, res) => {
+    try {
+      // Dohvati nasumičnu biljnu vrstu
+      const plantSpecies = await dbConn.query('SELECT id FROM plant_species ORDER BY RAND() LIMIT 1');
+      const plantId = plantSpecies[0].id;
+  
+      // Dohvati bioaktivne tvari za nasumičnu biljnu vrstu
+      const bioactiveSubstance = await dbConn.query(
+        `SELECT bs.id, bs.name
+         FROM bioactive_substance bs
+         JOIN plant_species_bioactive psb ON bs.id = psb.bioactive_substance_id
+         WHERE psb.plant_species_id = ?`,
+        [plantId]
+      );
+  
+      // Provjeri da li postoje barem 2 bioaktivne tvari
+      if (bioactiveSubstance.length < 2) {
+        return res.status(404).send({ error: true, message: 'Nema dovoljno bioaktivnih tvari za ovu biljnu vrstu.' });
+      }
+  
+      res.send({ error: false, plantId, bioactiveSubstance });
+    } catch (error) {
+      console.error('Error fetching random bioactive substance:', error);
+      res.status(500).send({ error: true, message: 'Greška pri dohvaćanju bioaktivnih tvari.' });
+    }
+  });
+  
+  
+  
+  
+
 });
 
 
