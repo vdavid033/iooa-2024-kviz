@@ -234,6 +234,17 @@ export default {
       state.pitanje = state.pitanje[randomQuestionIndex];
     }
 
+
+    async function getAnswers() {
+      if (state.tip_pitanja === 0 || state.tip_pitanja === 2) {
+        await getRandomBotanicalPlant();
+      } else if (state.tip_pitanja === 1 || state.tip_pitanja === 3) {
+        await getRandomBotanicalPlant();
+      } else if (state.tip_pitanja === 5) {
+        await getBioactiveSubstanceForMalina();
+      }
+    }
+
     //pokušaj pisanja funkcije
     async function getAnswers() {
       if (state.pitanje == 0 || state.pitanje == 2) {
@@ -253,6 +264,26 @@ export default {
       const json = await axios.get(`http://localhost:3000/botanical_family`);
       const botanicalFamily = json.data.data;
 
+      
+      async function getBioactiveSubstanceForMalina() {
+      const json = await axios.get(`http://localhost:3000/bioactive_substance_malina`);
+      const substances = json.data;
+
+      state.odgovori = substances.map((item, index) => ({
+        id: index,
+        name: item.name,
+        answer_type: item.answer_type,
+      }));
+
+      state.tocanOdgovor = state.odgovori.find((odgovor) => odgovor.answer_type === 'correct');
+    }
+
+    async function getImage() {
+      let plant_id = state.plant.id;
+
+      if (state.tip_pitanja === 5) { // Ako je pitanje o malini
+        plant_id = 2; // ID maline
+      }
       
       // funkcija koja dohvaca tocan odgovor i sprema ga u state.tocanOdgovor
       await getCorrectAnswerFromBotanicalFamily();
@@ -314,12 +345,7 @@ export default {
 
 
     
-    async function getCorrectAnswerFromBioactiveSubstance() {
-      const json = await axios.get(
-        `http://localhost:3000/bioactive_substance/${bioactive.substance.id}`
-      );
-      state.tocanOdgovor = json.data.data;
-    }
+    
 
 
     return {

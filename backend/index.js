@@ -28,6 +28,27 @@ var dbConn = mysql.createConnection({
 // connect to database
 dbConn.connect();
 
+app.get('/bioactive_substance_malina', (req, res) => {
+  const query = `
+    (SELECT DISTINCT b.name, 'correct' AS answer_type
+     FROM plant_part_bioactive_substance pbs
+     JOIN bioactive_substance b ON pbs.bioactive_substance_id = b.id
+     WHERE pbs.plant_species_id = 2
+     LIMIT 2)
+    UNION ALL
+    (SELECT DISTINCT b.name, 'incorrect' AS answer_type
+     FROM bioactive_substance b
+     WHERE b.id NOT IN (SELECT pbs.bioactive_substance_id
+                        FROM plant_part_bioactive_substance pbs
+                        WHERE pbs.plant_species_id = 2)
+     ORDER BY RAND()
+     LIMIT 2)`;
+     dbConn.query(query, (error, results) => {
+      if (error) throw error;
+      res.json(results);
+    });
+  });
+
 // Retrieve all plant_species
 app.get("/plant_species", (request, response) => {
   dbConn.query("SELECT * FROM plant_species", (error, results) => {
