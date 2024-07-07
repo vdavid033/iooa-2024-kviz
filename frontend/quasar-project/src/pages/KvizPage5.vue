@@ -10,10 +10,9 @@
       <q-img width="700px" height="350px" :src="state.image" :ratio="16 / 9" />
     </div>
     <div class="q-pa-md odgovori">
-      <!-- pozivanje metode getLabelOdgovor koja provjerava pitanja i daje osgovore sukladno zadanome-->
       <q-radio
         v-for="odgovor in state.odgovori"
-        v-bind:key="odgovor.id"
+        :key="odgovor.id"
         v-model="state.odabraniOdgovor"
         :val="odgovor.id"
         :label="getLabelOdgovor(odgovor)"
@@ -31,19 +30,19 @@
           prikaziGumb();
           state.alert = true;
           state.odabraniOdgovor === state.tocanOdgovor.id
-            ? (state.brojTocnih = state.brojTocnih + 1)
-            : (state.brojNetocnih = state.brojNetocnih + 1);
+            ? (state.brojTocnih += 1)
+            : (state.brojNetocnih += 1);
         "
       />
       <q-btn
         id="PrihvatiIZavrsi"
         color="white"
         text-color="black"
-        label="Prihvati i zavrsi"
+        label="Prihvati i završi"
         @click="
           state.odabraniOdgovor === state.tocanOdgovor.id
-            ? (state.brojTocnih = state.brojTocnih + 1)
-            : (state.brojNetocnih = state.brojNetocnih + 1);
+            ? (state.brojTocnih += 1)
+            : (state.brojNetocnih += 1);
           state.zavrsniPopup = true;
         "
         disabled
@@ -53,6 +52,7 @@
         color="white"
         text-color="black"
         label="Ponovno pokreni kviz"
+        @click="window.location.reload()"
         disabled
       />
       <q-dialog v-model="state.alert" persistent>
@@ -66,10 +66,7 @@
               }}
             </div>
           </q-card-section>
-
           <q-card-section class="q-pt-none">
-            <!-- //biljna vrsta pripada u botaničku porodicu botanička porodica -->
-
             {{
               state.odabraniOdgovor === state.tocanOdgovor.id
                 ? state.plant.latin_name +
@@ -80,7 +77,6 @@
                   state.tocanOdgovor.croatian_name
             }}
           </q-card-section>
-
           <q-card-actions align="right">
             <q-btn
               flat
@@ -95,11 +91,8 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-
-      <!-- Završni popup -->
       <q-dialog v-model="state.zavrsniPopup" persistent>
         <div>
-          <!--State alert popup (zadnji odgovor) spojen sa završnim popup-om zbog prikaza -->
           <q-card>
             <q-card-section class="text-center">
               <div class="text-h6">
@@ -110,7 +103,6 @@
                 }}
               </div>
             </q-card-section>
-
             <q-card-section class="q-pt-none">
               {{
                 state.odabraniOdgovor === state.tocanOdgovor.id
@@ -122,12 +114,8 @@
                     state.tocanOdgovor.croatian_name
               }}
             </q-card-section>
-
-            <!--Rezultat popup-->
-
             <q-card-section class="text-center">
               <div class="text-h6" style="margin-bottom: 10px">Rezultat</div>
-
               <q-card-section class="q-pt-none">
                 Broj točnih odgovora: {{ state.brojTocnih }}
               </q-card-section>
@@ -147,15 +135,14 @@
           </q-card>
         </div>
       </q-dialog>
-      <!--Kraj završnog popup-a-->
     </div>
   </div>
 </template>
 
 <script>
 import { onMounted, reactive } from "vue";
-import { axios } from "../boot/axios";
-var clicks = 1;
+import axios from "axios";
+
 export default {
   setup() {
     const state = reactive({
@@ -181,20 +168,15 @@ export default {
     async function handleClose() {
       await randomPlant();
       await getRandomBotanicalPlant();
-      await getImage(); //dodala sam ovo
+      await getImage();
     }
-    //za dohvat slike
+
     async function getImage() {
-      const json = await axios.get(
-        `http://localhost:3000/image/${state.plant.id}`
-      );
+      const json = await axios.get(`http://localhost:3000/image/${state.plant.id}`);
       const data = json.data.data;
 
       if (data) {
-        if (
-          Object.getOwnPropertyNames(json.data).length === 0 ||
-          json.data.data === undefined
-        ) {
+        if (Object.getOwnPropertyNames(json.data).length === 0 || json.data.data === undefined) {
           state.image = "";
         } else {
           const image = data;
@@ -205,20 +187,11 @@ export default {
       }
     }
 
-    // funkcija koja dohvaca random plant species i postavlja vrijednost u state.plant
     async function randomPlant() {
-      const jsonObject = await axios.get(
-        `http://localhost:3000/plant_species/`
-      );
-      let randomPlant =
-        jsonObject.data.data[
-          Math.floor(Math.random() * jsonObject.data.data.length)
-        ];
-
-      // plant se sprema u state.plant
+      const jsonObject = await axios.get(`http://localhost:3000/plant_species/`);
+      let randomPlant = jsonObject.data.data[Math.floor(Math.random() * jsonObject.data.data.length)];
       state.plant = randomPlant;
 
-      // u state.pitanje spremamo tekst pitanja
       state.pitanje = [
         "Koji je latinski naziv za " + state.plant.croatian_name + "?",
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
@@ -227,13 +200,10 @@ export default {
         "Koje uporabne dijelovi sadrži " + state.plant.croatian_name + "?",
         "Koje bioaktivne tvari sadrži malina?",
       ];
-      const randomQuestionIndex = Math.floor(
-        Math.random() * state.pitanje.length
-      );
+      const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
       state.tip_pitanja = randomQuestionIndex;
       state.pitanje = state.pitanje[randomQuestionIndex];
     }
-
 
     async function getAnswers() {
       if (state.tip_pitanja === 0 || state.tip_pitanja === 2) {
@@ -245,62 +215,33 @@ export default {
       }
     }
 
-    //pokušaj pisanja funkcije
-    async function getAnswers() {
-      if (state.pitanje == 0 || state.pitanje == 2) {
-        getRandomBotanicalPlant();
-        return state.plant.croatian_name;
-      } else if (state.pitanje == 1 || state.pitanje == 3) {
-        getRandomBotanicalPlant();
-        return state.plant.latin_name;
-      }
-      return {
-        getAnswers,
-      };
-    }
-
-    // funkcija koja dohvaca random botanicke vrste i postavlja ih u listu odgovora state.odgovori
     async function getRandomBotanicalPlant() {
       const json = await axios.get(`http://localhost:3000/botanical_family`);
       const botanicalFamily = json.data.data;
 
-      
       async function getBioactiveSubstanceForMalina() {
-      const json = await axios.get(`http://localhost:3000/bioactive_substance_malina`);
-      const substances = json.data;
-
-      state.odgovori = substances.map((item, index) => ({
-        id: index,
-        name: item.name,
-        answer_type: item.answer_type,
-      }));
-
-      state.tocanOdgovor = state.odgovori.find((odgovor) => odgovor.answer_type === 'correct');
-    }
-
-    async function getImage() {
-      let plant_id = state.plant.id;
-
-      if (state.tip_pitanja === 5) { // Ako je pitanje o malini
-        plant_id = 2; // ID maline
+        const json = await axios.get(`http://localhost:3000/bioactive_substance_malina`);
+        const substances = json.data;
+        state.odgovori = substances.map((item, index) => ({
+          id: index,
+          name: item.name,
+          answer_type: item.answer_type,
+        }));
+        state.tocanOdgovor = state.odgovori.find((odgovor) => odgovor.answer_type === 'correct');
       }
-      
-      // funkcija koja dohvaca tocan odgovor i sprema ga u state.tocanOdgovor
-      await getCorrectAnswerFromBotanicalFamily();
 
       let botanicList = [];
+      await getCorrectAnswerFromBotanicalFamily();
       botanicList.push(state.tocanOdgovor);
 
-      // dok lista nema 2 odgovora, trazi i dodaj novi
       while (botanicList.length < 4) {
         let index = Math.round(Math.random() * (botanicalFamily.length - 1));
         let botanicObject = {
           id: botanicalFamily[index].id,
           latin_name: botanicalFamily[index].latin_name,
-          croatian_name: botanicalFamily[index].croatian_name, // Adding Croatian name
+          croatian_name: botanicalFamily[index].croatian_name,
         };
 
-        ///// gledamo ako je odogovor već u listi, ako je je true-> break
         var found = false;
         for (var i = 0; i < botanicList.length; i++) {
           if (botanicList[i].id == botanicObject?.id) {
@@ -308,45 +249,21 @@ export default {
             break;
           }
         }
-        ///// ukoliko nije odgovor u listi, dodaj ga
         if (!found) {
           botanicList.push(botanicObject);
         }
-
-        // dodaje odgovor u listu samo ako takav odgovor vec ne postoji i ako odgovor nije jednak tocnom odgovoru
-        /*if (
-          botanicObject.id !== botanicList[0]?.id &&
-          botanicObject.id !== state.tocanOdgovor?.id
-        ) {
-          botanicList.push(botanicObject);
-        }*/
       }
-      // nakon sto u listi odgovora imamo 2 razlicita odgovora, u listu dodajemo tocan odgovor
-      // botanicList.push(state.tocanOdgovor);
-
-      // pitanja u listi se sortiraju kako bi poredak bio random
       state.odgovori = botanicList
         .map((value) => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value);
-
-      // prvi odgovor u listi postavlja se kao selektirani
       state.odabraniOdgovor = state.odgovori[0].id;
     }
 
-    // funkcija dohvaca tocan odgovor za random plant species -> state.plant
     async function getCorrectAnswerFromBotanicalFamily() {
-      const json = await axios.get(
-        `http://localhost:3000/plant_species/${state.plant.id}`
-      );
+      const json = await axios.get(`http://localhost:3000/plant_species/${state.plant.id}`);
       state.tocanOdgovor = json.data.data;
     }
-
-
-
-    
-    
-
 
     return {
       state,
@@ -357,8 +274,6 @@ export default {
     };
   },
 
-  
-  
   methods: {
     prikaziGumb() {
       ("use strict");
@@ -369,19 +284,15 @@ export default {
       function buttonPressed(e) {
         count++;
         if (count === 8) {
-          button2.removeAttribute("disabled", false);
-          button3.removeAttribute("disabled", false);
-          button2.innerHTML = "Prihvati i zavrsi";
+          button2.removeAttribute("disabled");
+          button3.removeAttribute("disabled");
+          button2.innerHTML = "Prihvati i završi";
           button1.setAttribute("disabled", true);
           button1.style.display = "none";
         }
       }
       button1.addEventListener("click", buttonPressed, true);
-      button3.onclick = () => {
-        window.location.reload();
-      };
     },
-    // PRORADILO... - Emina i Hrvoje
     getLabelOdgovor(odgovor) {
       const pitanje = this.state.pitanje;
       if (pitanje.includes("latinski naziv")) {
@@ -394,18 +305,12 @@ export default {
         return odgovor.croatian_name;
       }
     },
-
     brPitanja() {
       clicks += 1;
       document.getElementById("clicks").innerHTML = clicks;
     },
   },
 };
-
-
-
-
-
 </script>
 
 <style>
@@ -429,12 +334,12 @@ export default {
 @media only screen and (max-width: 768px) {
   .odgovori {
     flex-direction: column;
-    align-items: center; /* Da bi odgovori bili centrirani u koloni */
+    align-items: center;
   }
 
   .odgovori q-radio {
-    width: 100%; /* Postavljamo širinu svakog elementa na 100% */
-    margin-bottom: 10px; /* Dodajemo malo prostora između odgovora */
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   #pitanje {
@@ -444,13 +349,12 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    font-size: 16px; /* Smanjujemo font da stane na screen ispod 768px */
+    font-size: 16px;
   }
   .q-toolbar__title {
-    display: none; /* Uklanjamo logo */
+    display: none;
   }
   .q-pa-md.q-gutter-sm {
-    /* Flexbox -> buttoni jedan ispod drugoga */
     display: flex;
     flex-direction: column;
     align-items: center;
