@@ -270,6 +270,56 @@ app.get("/genus/:id", function (request, response) {
 
 
 
+
+app.get('/plant_family_question', (req, res) => {
+  const query = `
+    SELECT bf.croatian_name AS family, ps.croatian_name AS plant_name
+    FROM plant_species ps
+    LEFT JOIN genus g ON ps.genus_id = g.id
+    LEFT JOIN botanical_family bf ON g.botanical_family_id = bf.id
+    LEFT JOIN image i ON ps.id = i.plant_species_id
+    WHERE i.image_url IS NOT NULL
+    ORDER BY RAND()
+    LIMIT 1
+  `;
+
+  dbConn.query(query, (error, results) => {
+    if (error) throw error;
+
+    if (results.length > 0) {
+      const plant = results[0];
+      const correctFamily = plant.family;
+
+      // Prikupi ostale porodice za netočne odgovore
+      const incorrectQuery = `
+        SELECT DISTINCT bf.croatian_name
+        FROM botanical_family bf
+        WHERE bf.croatian_name != ?
+        ORDER BY RAND()
+        LIMIT 3
+      `;
+      
+      dbConn.query(incorrectQuery, [correctFamily], (error, incorrectResults) => {
+        if (error) throw error;
+
+        // Kombiniraj točan i netočne odgovore
+        const answers = [correctFamily, ...incorrectResults.map(row => row.croatian_name)];
+        const shuffledAnswers = answers.sort(() => Math.random() - 0.5); // Random odgovor
+        
+        res.json({
+          question: `Kojoj botaničkoj porodici pripada biljka sa slikom?`,
+          answers: shuffledAnswers,
+          correctAnswer: correctFamily
+        });
+      });
+    } else {
+      res.status(404).json({ message: "No plant found with an image." });
+    }
+  });
+});
+
+
+
 app.listen(3000, function () {
   console.log("Node app is running on port 3000");
 });

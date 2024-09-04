@@ -187,32 +187,77 @@ export default {
       }
     }
 
-    async function randomPlant() {
-      const jsonObject = await axios.get(`http://localhost:3000/plant_species/`);
-      let randomPlant = jsonObject.data.data[Math.floor(Math.random() * jsonObject.data.data.length)];
-      state.plant = randomPlant;
+// Funkcija za generisanje novog pitanja
+async function randomPlant() {
+  const jsonObject = await axios.get(`http://localhost:3000/plant_species/`);
+  let randomPlant = jsonObject.data.data[Math.floor(Math.random() * jsonObject.data.data.length)];
+  state.plant = randomPlant;
 
-      state.pitanje = [
-        "Koji je latinski naziv za " + state.plant.croatian_name + "?",
-        "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
-        "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
-        "Koja biljna vrsta se nalazi na slici?",
-        "Koji je rod biljke za " + state.plant.latin_name + "?",  // Novi tip pitanja za genus
-      ];
-      const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
-      state.tip_pitanja = randomQuestionIndex;
-      state.pitanje = state.pitanje[randomQuestionIndex];
-    }
+  // Dodajte novo pitanje u listu pitanja
+  state.pitanje = [
+    "Koji je latinski naziv za " + state.plant.croatian_name + "?",
+    "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
+    "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
+    "Koja biljna vrsta se nalazi na slici?",
+    "Koji je rod biljke za " + state.plant.latin_name + "?",
+    "Kojoj botaničkoj porodici pripada biljka sa slikom?" // Novo pitanje
+   
+  ];
 
-    async function getAnswers() {
-      if (state.tip_pitanja === 0 || state.tip_pitanja === 2) {
-        await getRandomBotanicalPlant();
-      } else if (state.tip_pitanja === 1 || state.tip_pitanja === 3) {
-        await getRandomBotanicalPlant();
-      } else if (state.tip_pitanja === 5) {
-        await getBioactiveSubstanceForMalina();
-      }
-    }
+  const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
+  state.tip_pitanja = randomQuestionIndex;
+  state.pitanje = state.pitanje[randomQuestionIndex];
+
+  // Pozovite funkciju za dobijanje odgovora na osnovu tipa pitanja
+  await getAnswers();
+}
+
+
+
+async function handleNewQuestion() {
+  if (state.tip_pitanja === 7) { // Koristite tip 7 za ovo novo pitanje
+    await getPlantFamilyQuestion();
+  } else {
+    // Ostali uvjeti za prethodna pitanja
+    await randomPlant();
+  }
+}
+
+
+async function getPlantFamilyQuestion() {
+  const json = await axios.get(`http://localhost:3000/plant_family_question`);
+  const data = json.data;
+
+  state.pitanje = data.question;
+  state.odgovori = data.answers.map(answer => ({
+    id: answer,
+    croatian_name: answer // Za prikaz samo jednog polja
+  }));
+  state.tocanOdgovor = data.correctAnswer;
+}
+
+async function getAnswers() {
+  if (state.tip_pitanja === 7) {
+    await getPlantFamilyQuestion();
+  } else {
+    // Ostale funkcije za odgovore
+    await randomPlant();
+  }
+}
+
+
+   
+
+async function getAnswers() {
+  if (state.tip_pitanja === 0 || state.tip_pitanja === 2) {
+    await getRandomBotanicalPlant();
+  } else if (state.tip_pitanja === 1 || state.tip_pitanja === 3) {
+    await getRandomBotanicalPlant();
+  } else if (state.tip_pitanja === 6) {
+    await getUsefulParts();
+  }
+}
+
 
     // Funkcija koja dohvaća rod biljke
 async function getGenus() {
@@ -336,7 +381,9 @@ async function getGenus() {
         return odgovor.croatian_name;
       } else if (pitanje.includes("rod biljke")) {  // Dodajemo novu provjeru
         return odgovor.croatian_name; //odgovori na hrvatskom
+      
       }
+      
     },
     brPitanja() {
       clicks += 1;
