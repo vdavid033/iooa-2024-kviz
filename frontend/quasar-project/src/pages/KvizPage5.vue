@@ -197,8 +197,7 @@ export default {
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
         "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
-        "Koje uporabne dijelovi sadrži " + state.plant.croatian_name + "?",
-        "Koje bioaktivne tvari sadrži malina?",
+        "Koji je rod biljke za " + state.plant.latin_name + "?",  // Novi tip pitanja
       ];
       const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
       state.tip_pitanja = randomQuestionIndex;
@@ -215,20 +214,52 @@ export default {
       }
     }
 
+    // Funkcija koja dohvata rod biljke
+async function getGenus() {
+  const json = await axios.get(
+    `http://localhost:3000/plant_species/${state.plant.id}`
+  );
+  const data = json.data.data;
+
+  // Spremi točan odgovor u state.tocanOdgovor
+  state.tocanOdgovor = data;
+
+  // Dohvati nasumične odgovore za rod biljaka
+  const jsonObject = await axios.get(
+    `http://localhost:3000/botanical_family`
+  );
+  const botanicalFamily = jsonObject.data.data;
+  
+  let genusList = [];
+  genusList.push(state.tocanOdgovor);
+
+  while (genusList.length < 4) {
+    let index = Math.round(Math.random() * (botanicalFamily.length - 1));
+    let genusObject = {
+      id: botanicalFamily[index].id,
+      latin_name: botanicalFamily[index].latin_name,
+      croatian_name: botanicalFamily[index].croatian_name,
+    };
+
+    if (!genusList.some(g => g.id === genusObject.id)) {
+      genusList.push(genusObject);
+    }
+  }
+
+  state.odgovori = genusList
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  state.odabraniOdgovor = state.odgovori[0].id;
+}
+
+
     async function getRandomBotanicalPlant() {
       const json = await axios.get(`http://localhost:3000/botanical_family`);
       const botanicalFamily = json.data.data;
 
-      async function getBioactiveSubstanceForMalina() {
-        const json = await axios.get(`http://localhost:3000/bioactive_substance_malina`);
-        const substances = json.data;
-        state.odgovori = substances.map((item, index) => ({
-          id: index,
-          name: item.name,
-          answer_type: item.answer_type,
-        }));
-        state.tocanOdgovor = state.odgovori.find((odgovor) => odgovor.answer_type === 'correct');
-      }
+      
 
       let botanicList = [];
       await getCorrectAnswerFromBotanicalFamily();
@@ -302,6 +333,8 @@ export default {
       } else if (pitanje.includes("botaničkoj")) {
         return odgovor.latin_name;
       } else if (pitanje.includes("nalazi na slici")) {
+        return odgovor.croatian_name;
+      } else if (pitanje.includes("rod biljke")) {  // Dodajemo novu provjeru
         return odgovor.croatian_name;
       }
     },

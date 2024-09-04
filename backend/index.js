@@ -245,46 +245,30 @@ app.get("/useful_part/:id/:questionid", (request, response) => {
   }
 });
 
-// Retrieve bioactive_substances
-app.get('/bioactive_substance', async (req, res) => {
-  try {
-    const [plantSpecies] = await new Promise((resolve, reject) => {
-      dbConn.query('SELECT id FROM plant_species ORDER BY RAND() LIMIT 1', (error, results) => {
-        if (error) return reject(error);
-        resolve(results);
-      });
+// Dohvat biljnog roda za određenu biljnu vrstu
+app.get("/genus/:id", function (request, response) {
+  let plant_species_id = request.params.id;
+  if (!plant_species_id) {
+    return response.status(400).send({
+      error: true,
+      message: "Please provide plant_species_id",
     });
-
-    if (!plantSpecies) {
-      return res.status(404).send({ error: true, message: 'No plant species found.' });
-    }
-
-    const plantId = plantSpecies.id;
-
-    const bioactiveSubstance = await new Promise((resolve, reject) => {
-      dbConn.query(
-        `SELECT bs.id, bs.name 
-         FROM bioactive_substance bs 
-         JOIN plant_species_bioactive psb ON bs.id = psb.bioactive_substance_id 
-         WHERE psb.plant_species_id = ?`,
-        [plantId],
-        (error, results) => {
-          if (error) return reject(error);
-          resolve(results);
-        }
-      );
-    });
-
-    if (bioactiveSubstance.length < 2) {
-      return res.status(404).send({ error: true, message: 'Not enough bioactive substances found for this plant species.' });
-    }
-
-    res.send({ error: false, plantId, bioactiveSubstance });
-  } catch (error) {
-    console.error('Error fetching random bioactive substance:', error);
-    res.status(500).send({ error: true, message: 'Error fetching bioactive substances.' });
   }
+  dbConn.query(
+    "SELECT g.id, g.latin_name FROM genus g LEFT JOIN plant_species ps ON g.id=ps.genus_id WHERE ps.id=?",
+    plant_species_id,
+    function (error, results, fields) {
+      if (error) throw error;
+      return response.send({
+        error: false,
+        data: results[0],
+        message: "genus information.",
+      });
+    }
+  );
 });
+
+
 
 app.listen(3000, function () {
   console.log("Node app is running on port 3000");
