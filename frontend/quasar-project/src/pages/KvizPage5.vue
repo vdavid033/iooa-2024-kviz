@@ -197,7 +197,7 @@ export default {
         "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
         "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
         "Koja biljna vrsta se nalazi na slici?",
-        "Koji je rod biljke za " + state.plant.latin_name + "?",  // Novi tip pitanja
+        "Koji je rod biljke za " + state.plant.latin_name + "?",  // Novi tip pitanja za genus
       ];
       const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
       state.tip_pitanja = randomQuestionIndex;
@@ -214,7 +214,7 @@ export default {
       }
     }
 
-    // Funkcija koja dohvata rod biljke
+    // Funkcija koja dohvaća rod biljke
 async function getGenus() {
   const json = await axios.get(
     `http://localhost:3000/plant_species/${state.plant.id}`
@@ -335,7 +335,7 @@ async function getGenus() {
       } else if (pitanje.includes("nalazi na slici")) {
         return odgovor.croatian_name;
       } else if (pitanje.includes("rod biljke")) {  // Dodajemo novu provjeru
-        return odgovor.croatian_name;
+        return odgovor.croatian_name; //odgovori na hrvatskom
       }
     },
     brPitanja() {

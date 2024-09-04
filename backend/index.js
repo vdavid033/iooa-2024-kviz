@@ -245,7 +245,7 @@ app.get("/useful_part/:id/:questionid", (request, response) => {
   }
 });
 
-// Dohvat biljnog roda za određenu biljnu vrstu
+// Dohvat biljnog roda za određenu biljnu vrstu, id biljne vrste
 app.get("/genus/:id", function (request, response) {
   let plant_species_id = request.params.id;
   if (!plant_species_id) {
@@ -255,7 +255,7 @@ app.get("/genus/:id", function (request, response) {
     });
   }
   dbConn.query(
-    "SELECT g.id, g.latin_name FROM genus g LEFT JOIN plant_species ps ON g.id=ps.genus_id WHERE ps.id=?",
+    "SELECT g.id, g.latin_name FROM genus g LEFT JOIN plant_species ps ON g.id=ps.genus_id WHERE ps.id=?", //USPJELA SQL UPIT RADI
     plant_species_id,
     function (error, results, fields) {
       if (error) throw error;
