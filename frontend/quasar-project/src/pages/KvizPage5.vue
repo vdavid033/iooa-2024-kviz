@@ -187,13 +187,13 @@ export default {
       }
     }
 
-// Funkcija za generisanje novog pitanja
+// Funkcija za generiranje novog pitanja
 async function randomPlant() {
   const jsonObject = await axios.get(`http://localhost:3000/plant_species/`);
   let randomPlant = jsonObject.data.data[Math.floor(Math.random() * jsonObject.data.data.length)];
   state.plant = randomPlant;
 
-  // Dodajte novo pitanje u listu pitanja
+  // Dodavanje novog pitanje u listu pitanja
   state.pitanje = [
     "Koji je latinski naziv za " + state.plant.croatian_name + "?",
     "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
@@ -201,6 +201,7 @@ async function randomPlant() {
     "Koja biljna vrsta se nalazi na slici?",
     "Koji je rod biljke za " + state.plant.latin_name + "?",
     "Kojoj botaničkoj porodici pripada biljka sa slikom?" // Novo pitanje
+    
    
   ];
 
@@ -208,45 +209,21 @@ async function randomPlant() {
   state.tip_pitanja = randomQuestionIndex;
   state.pitanje = state.pitanje[randomQuestionIndex];
 
-  // Pozovite funkciju za dobijanje odgovora na osnovu tipa pitanja
+  // Pozivanje funkcije za dobivanje odgovora na osnovu tipa pitanja
   await getAnswers();
 }
 
-
-
-async function handleNewQuestion() {
-  if (state.tip_pitanja === 7) { // Koristite tip 7 za ovo novo pitanje
-    await getPlantFamilyQuestion();
-  } else {
-    // Ostali uvjeti za prethodna pitanja
-    await randomPlant();
-  }
-}
-
-
-async function getPlantFamilyQuestion() {
-  const json = await axios.get(`http://localhost:3000/plant_family_question`);
-  const data = json.data;
-
-  state.pitanje = data.question;
-  state.odgovori = data.answers.map(answer => ({
-    id: answer,
-    croatian_name: answer // Za prikaz samo jednog polja
-  }));
-  state.tocanOdgovor = data.correctAnswer;
-}
-
+// Funkcija za dobivanje odgovora na osnovu tipa pitanja
 async function getAnswers() {
-  if (state.tip_pitanja === 7) {
-    await getPlantFamilyQuestion();
+  if (state.tip_pitanja === 5) {
+    // Dohvati korisne dijelobe biljke
+    await getUsefulParts();
   } else {
-    // Ostale funkcije za odgovore
-    await randomPlant();
+    await getRandomBotanicalPlant();
   }
 }
 
 
-   
 
 async function getAnswers() {
   if (state.tip_pitanja === 0 || state.tip_pitanja === 2) {
@@ -381,7 +358,8 @@ async function getGenus() {
         return odgovor.croatian_name;
       } else if (pitanje.includes("rod biljke")) {  // Dodajemo novu provjeru
         return odgovor.croatian_name; //odgovori na hrvatskom
-      
+      } else if (pitanje.includes("dio biljke najčešće korišten")) { // Novo pitanje
+        return odgovor.croatian_name;
       }
       
     },
