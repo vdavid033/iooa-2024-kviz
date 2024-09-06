@@ -318,6 +318,26 @@ app.get('/plant_family_question', (req, res) => {
   });
 });
 
+// Pretpostavljam da imaš endpoint za dohvaćanje pitanja. Ovdje ćemo dodati težinu.
+app.get('/pitanje/:id', (req, res) => {
+  let pitanje_id = req.params.id;
+  if (!pitanje_id) {
+    return res.status(400).send({
+      error: true,
+      message: "Please provide pitanje_id",
+    });
+  }
+
+  dbConn.query("SELECT * FROM pitanja WHERE id=?", pitanje_id, (error, results) => {
+    if (error) throw error;
+    res.send({
+      error: false,
+      data: results[0],
+      message: "Pitanje detalji.",
+    });
+  });
+});
+
 
 
 app.listen(3000, function () {

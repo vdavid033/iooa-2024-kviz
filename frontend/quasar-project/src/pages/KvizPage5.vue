@@ -5,6 +5,7 @@
         <div id class="text-h5 h5 full-width">
           <span><a id="clicks">1</a>. </span>
           <span id="pitanje"> {{ state.pitanje }} </span>
+          <span class="tezina"> (Težina: {{ state.tezina }}) </span> 
         </div>
       </q-banner>
       <q-img width="700px" height="350px" :src="state.image" :ratio="16 / 9" />
@@ -22,31 +23,37 @@
 
     <div class="q-pa-md q-gutter-sm">
       <q-btn
-        id="PrihvatiOdgovor"
-        color="white"
-        text-color="black"
-        label="Prihvati odgovor"
-        @click="
-          prikaziGumb();
-          state.alert = true;
-          state.odabraniOdgovor === state.tocanOdgovor.id
-            ? (state.brojTocnih += 1)
-            : (state.brojNetocnih += 1);
-        "
-      />
-      <q-btn
-        id="PrihvatiIZavrsi"
-        color="white"
-        text-color="black"
-        label="Prihvati i završi"
-        @click="
-          state.odabraniOdgovor === state.tocanOdgovor.id
-            ? (state.brojTocnih += 1)
-            : (state.brojNetocnih += 1);
-          state.zavrsniPopup = true;
-        "
-        disabled
-      />
+  id="PrihvatiOdgovor"
+  color="white"
+  text-color="black"
+  label="Prihvati odgovor"
+  @click="
+    prikaziGumb();
+    state.alert = true;
+    if (state.odabraniOdgovor === state.tocanOdgovor.id) {
+      state.brojTocnih += 1;
+      state.bodovi += state.tezina; // Dodaj bodove za točan odgovor
+    } else {
+      state.brojNetocnih += 1;
+    }
+  "
+/>
+<q-btn
+  id="PrihvatiIZavrsi"
+  color="white"
+  text-color="black"
+  label="Prihvati i završi"
+  @click="
+    if (state.odabraniOdgovor === state.tocanOdgovor.id) {
+      state.brojTocnih += 1;
+      state.bodovi += state.tezina; // Dodaj bodove za točan odgovor
+    } else {
+      state.brojNetocnih += 1;
+    }
+    state.zavrsniPopup = true;
+  "
+  disabled
+/>
       <q-btn
         id="Refresh"
         color="white"
@@ -122,6 +129,9 @@
               <q-card-section class="q-pt-none">
                 Broj netočnih odgovora: {{ state.brojNetocnih }}
               </q-card-section>
+              <q-card-section class="q-pt-none">
+                Ukupni bodovi: {{ state.bodovi }} <!-- Dodajte ovo -->
+              </q-card-section>
               <q-card-actions align="center">
                 <q-btn
                   flat
@@ -154,9 +164,11 @@ export default {
       tocanOdgovor: {},
       brojTocnih: 0,
       brojNetocnih: 0,
+      bodovi: 0,
       image: "",
       alert: false,
       zavrsniPopup: false,
+      tezina: 1,
     });
 
     onMounted(async () => {
@@ -193,6 +205,10 @@ async function randomPlant() {
   let randomPlant = jsonObject.data.data[Math.floor(Math.random() * jsonObject.data.data.length)];
   state.plant = randomPlant;
 
+  // Odredivanje tezine pitanja (nasumicna vrijednost izmedu 1 i 5)
+  state.tezina = Math.floor(Math.random() * 5) + 1;
+
+
   // Dodavanje novog pitanje u listu pitanja
   state.pitanje = [
     "Koji je latinski naziv za " + state.plant.croatian_name + "?",
@@ -205,13 +221,16 @@ async function randomPlant() {
    
   ];
 
+  
   const randomQuestionIndex = Math.floor(Math.random() * state.pitanje.length);
   state.tip_pitanja = randomQuestionIndex;
   state.pitanje = state.pitanje[randomQuestionIndex];
 
+
   // Pozivanje funkcije za dobivanje odgovora na osnovu tipa pitanja
   await getAnswers();
 }
+
 
 // Funkcija za dobivanje odgovora na osnovu tipa pitanja
 async function getAnswers() {
@@ -372,6 +391,17 @@ async function getGenus() {
 </script>
 
 <style>
+
+.tezina {  /*css tezina*/
+  font-size: 20px; 
+  color: white; 
+  margin-left: 10px; 
+}
+
+.q-card-section.q-pt-none {
+  margin-bottom: 10px; /* Razmak između redaka */
+}
+
 .odgovori {
   background: rgba(0, 0, 0, 0.1);
   display: flex;
