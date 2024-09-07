@@ -1,5 +1,10 @@
 <template>
   <div class="relative fixed-center">
+     <!-- Prikaz bodova -->
+     <div class="q-pa-md">
+      <div class="text-h6">Bodovi: {{ state.bodovi }}</div>
+    </div>
+    
     <div class="q-pa-md q-gutter-sm">
       <q-banner inline-actions rounded class="bg-positive text-white">
         <div id class="text-h5 h5 full-width">
