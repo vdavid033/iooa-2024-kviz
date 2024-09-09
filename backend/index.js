@@ -236,7 +236,7 @@ app.get("/genus/:id", function (request, response) {
     });
   }
   dbConn.query(
-    "SELECT g.id, g.latin_name FROM genus g LEFT JOIN plant_species ps ON g.id=ps.genus_id WHERE ps.id=?", //USPJELA SQL UPIT RADI
+    "SELECT g.id, g.latin_name FROM genus g LEFT JOIN plant_species ps ON g.id=ps.genus_id WHERE ps.id=?", // SQL UPIT RADI
     plant_species_id,
     function (error, results, fields) {
       if (error) throw error;
@@ -251,7 +251,7 @@ app.get("/genus/:id", function (request, response) {
 
 
 
-
+// Kojoj botaničkoj porodici pripada biljka sa slikom
 app.get('/plant_family_question', (req, res) => {
   const query = `
     SELECT bf.croatian_name AS family, ps.croatian_name AS plant_name
@@ -299,7 +299,7 @@ app.get('/plant_family_question', (req, res) => {
   });
 });
 
-// Pretpostavljam da imaš endpoint za dohvaćanje pitanja. Ovdje ćemo dodati težinu.
+// dodavanje težine pitanja
 app.get('/pitanje/:id', (req, res) => {
   let pitanje_id = req.params.id;
   if (!pitanje_id) {

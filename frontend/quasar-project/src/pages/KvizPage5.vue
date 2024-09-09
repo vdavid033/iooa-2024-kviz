@@ -135,7 +135,7 @@
                 Broj netočnih odgovora: {{ state.brojNetocnih }}
               </q-card-section>
               <q-card-section class="q-pt-none">
-                Ukupni bodovi: {{ state.bodovi }} <!-- Dodajte ovo -->
+                Ukupni bodovi: {{ state.bodovi }} 
               </q-card-section>
               <q-card-actions align="center">
                 <q-btn
@@ -169,11 +169,11 @@ export default {
       tocanOdgovor: {},
       brojTocnih: 0,
       brojNetocnih: 0,
-      bodovi: 0,
+      bodovi: 0, //bodovi
       image: "",
       alert: false,
       zavrsniPopup: false,
-      tezina: 1,
+      tezina: 1, //tezina
     });
 
     onMounted(async () => {
@@ -220,8 +220,8 @@ async function randomPlant() {
     "Koji je hrvatski naziv za " + state.plant.latin_name + "?",
     "Kojoj botaničkoj porodici pripada " + state.plant.croatian_name + "?",
     "Koja biljna vrsta se nalazi na slici?",
-    "Koji je rod biljke za " + state.plant.latin_name + "?",
-    "Kojoj botaničkoj porodici pripada biljka sa slikom?" // Novo pitanje
+    "Koji je rod biljke za " + state.plant.latin_name + "?", // novo pitanje
+    "Kojoj botaničkoj porodici pripada biljka sa slikom?" // novo pitanje
     
    
   ];
@@ -240,7 +240,7 @@ async function randomPlant() {
 // Funkcija za dobivanje odgovora na osnovu tipa pitanja
 async function getAnswers() {
   if (state.tip_pitanja === 5) {
-    // Dohvati korisne dijelobe biljke
+    // Dohvati korisne dijelove biljke
     await getUsefulParts();
   } else {
     await getRandomBotanicalPlant();
