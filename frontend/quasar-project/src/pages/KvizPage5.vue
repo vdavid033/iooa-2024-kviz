@@ -158,6 +158,8 @@
 import { onMounted, reactive } from "vue";
 import axios from "axios";
 
+var clicks = 1; // brojevi idu redom, ne ponavljaju se
+
 export default {
   setup() {
     const state = reactive({
@@ -176,6 +178,7 @@ export default {
       tezina: 1, //tezina
     });
 
+    
     onMounted(async () => {
       await randomPlant();
       await getRandomBotanicalPlant();
